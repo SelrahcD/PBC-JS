@@ -1,0 +1,14 @@
+{
+  "name": "pbc-js",
+  "version": "0.0.0",
+  "description": "Generate data for Process Behavior Charts in JS, meant to be used in Google App Scripts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SelrahcD",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
