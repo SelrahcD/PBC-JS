@@ -12,6 +12,7 @@ const pbc = (data) => {
         MOVING_RANGE: [],
         AVERAGE: [],
         AVERAGE_MOVING_RANGE: [],
+        LOWER_NATURAL_PROCESS_LIMIT: []
     }
 
     const baselineRequestedSize = 10;
@@ -40,6 +41,10 @@ const pbc = (data) => {
         .reduce((a, b) => a + b, 0) / (baselineSize - 1);
 
     result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
+
+    for(let i = 0; i < data.length; i++) {
+        result.LOWER_NATURAL_PROCESS_LIMIT.push(Math.round((result.AVERAGE[i] - (3 * result.AVERAGE_MOVING_RANGE[i] / 1.128)) * 100) / 100)
+    }
 
 
     return result
@@ -113,3 +118,20 @@ describe('Compute the Average Moving Range for the baseline', () => {
         expect(result.AVERAGE_MOVING_RANGE).toStrictEqual(expected);
     })
 });
+
+describe('Compute the Lower Natural Process Limit to the result object', () => {
+
+    test('have Lower Natural Process Limit to the result object', () => {
+        const result = pbc([]);
+        expect(result).toHaveProperty('LOWER_NATURAL_PROCESS_LIMIT');
+    })
+
+    test.each([
+        {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
+        {data: [1, 2, 1, 2], expected: [-1.16, -1.16, -1.16, -1.16]},
+    ])('Compute Lower Natural Process Limit to the result object', ({data, expected}) => {
+        const result = pbc(data);
+        expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
+    })
+
+})
