@@ -4,12 +4,22 @@ test('adds 1 + 2 to equal 3', () => {
     expect(sum(1, 2)).toBe(3);
 });
 
+
 const pbc = (data) => {
     let result = {
         MOVING_RANGE: [],
+        AVERAGE: [],
     }
 
+    const baselineRequestedSize = 10;
+
+    const baselineSize = Math.min(baselineRequestedSize, data.length)
+
+    const average = data.slice(0, baselineSize).reduce((a, b) => a + b, 0) / baselineSize;
+
     for(let i = 0; i < data.length; i++) {
+
+        result.AVERAGE.push(average);
         if(i === 0) {
             result.MOVING_RANGE.push("")
             continue
@@ -20,8 +30,6 @@ const pbc = (data) => {
 
         result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
     }
-
-
 
     return result
 
@@ -51,5 +59,29 @@ describe('Compute the Moving Range between two measurements', () => {
     
 });
 
+describe('Compute the Average for the baseline', () => {
+    test('have Average to the result object', () => {
+        const result = pbc([]);
+        expect(result).toHaveProperty('AVERAGE');
+    })
 
+    // Baseline is 10 points for now
+    test.each([
+        {data: [1], expected: [1]},
+        {data: [1, 1], expected: [1, 1]},
+        {data: [1, 3], expected: [2, 2]},
+        {data: [1, -1], expected: [0, 0]},
+    ])('Average value is the average of the measurements in the baseline', ({data, expected}) => {
+        const result = pbc(data);
+        expect(result.AVERAGE).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 100], expected: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Average doesnt use value outside of the baseline', ({data, expected}) => {
+        const result = pbc(data);
+        expect(result.AVERAGE).toStrictEqual(expected);
+    })
+
+});
 });
