@@ -50,6 +50,29 @@ const computePBC = (data) => {
     return result
 }
 
+function transpose(obj) {
+    const keys = Object.keys(obj)
+
+    const lengths = keys.map(key => obj[key].length);
+    const [firstLen, ...restLens] = lengths;
+    const allSameLength = restLens.every(len => len === firstLen); //?
+
+    if (!allSameLength) {
+        throw new Error('All columns must be of same length.');
+    }
+
+    const length = obj[keys[0]].length
+
+    const result = [keys]
+
+    for (let i = 0; i < length; i++) {
+        const row = keys.map(key => obj[key][i])
+        result.push(row)
+    }
+
+    return result
+}
+
 describe('Compute the Moving Range between two measurements', () => {
     test('have Moving Range to the result object', () => {
         const result = computePBC([]);
@@ -133,4 +156,29 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
         expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
+})
+
+describe('transpose', () => {
+    test('Transpose object fields to two dimensions array', () => {
+        const obj = {
+            a: ['A_1', 'A_2', 'A_3'],
+            b: ['B_1', 'B_2', 'B_3'],
+        }
+
+        expect(transpose(obj)).toStrictEqual([
+            ['a', 'b'],
+            ['A_1', 'B_1'],
+            ['A_2', 'B_2'],
+            ['A_3', 'B_3']
+        ]);
+    })
+
+    test('Fails if the length of all columns is not the same', () => {
+        const obj = {
+            a: ['A_1',],
+            b: [],
+        }
+
+        expect(() => transpose(obj)).toThrowError('All columns must be of same length.')
+    })
 })
