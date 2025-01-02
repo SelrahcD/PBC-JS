@@ -5,19 +5,20 @@ test('adds 1 + 2 to equal 3', () => {
 });
 
 const pbc = (data) => {
-    const headers = ['Moving Range'];
-    let result = headers;
+    let result = {
+        MOVING_RANGE: [],
+    }
 
     for(let i = 0; i < data.length; i++) {
         if(i === 0) {
-            result.push("")
+            result.MOVING_RANGE.push("")
             continue
         }
 
         const currentValue = data[i];
         const previousValue = data[i - 1];
 
-        result.push(Math.abs(currentValue - previousValue))
+        result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
     }
 
 
@@ -27,25 +28,28 @@ const pbc = (data) => {
 }
 
 describe('Compute the Moving Range between two measurements', () => {
-    test('Adds the Moving Range column header', () => {
+    test('have Moving Range to the result object', () => {
         const result = pbc([]);
-        expect(result).toStrictEqual(['Moving Range']);
+        expect(result).toHaveProperty('MOVING_RANGE');
     })
 
     test('Doesnt add value for first row', () => {
         const result = pbc([1]);
-        expect(result).toStrictEqual(['Moving Range', ""]);
+        expect(result.MOVING_RANGE).toStrictEqual([""]);
     })
 
     test.each([
         {data: [0, 1], expected: ["", 1]},
         {data: [0,-1], expected: ["", 1]},
         {data: [0, 1, 0], expected: ["", 1, 1]},
+        {data: [0, 1, 10, 5, 6, 3], expected: ["", 1, 9, 5, 1, 3]},
     ])('Value is absolute value of difference between current and previous measurements', ({data, expected}) => {
         const result = pbc(data);
-        expect(result).toStrictEqual(['Moving Range', ...expected]);
+        expect(result.MOVING_RANGE).toStrictEqual(expected);
 
     })
+    
+});
 
 
 });
