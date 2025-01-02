@@ -4,11 +4,14 @@ test('adds 1 + 2 to equal 3', () => {
     expect(sum(1, 2)).toBe(3);
 });
 
+// Baseline is 10 points for now
+
 
 const pbc = (data) => {
     let result = {
         MOVING_RANGE: [],
         AVERAGE: [],
+        AVERAGE_MOVING_RANGE: [],
     }
 
     const baselineRequestedSize = 10;
@@ -20,6 +23,7 @@ const pbc = (data) => {
     for(let i = 0; i < data.length; i++) {
 
         result.AVERAGE.push(average);
+
         if(i === 0) {
             result.MOVING_RANGE.push("")
             continue
@@ -30,6 +34,13 @@ const pbc = (data) => {
 
         result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
     }
+
+    const averageMovingRange = result.MOVING_RANGE
+        .slice(1, baselineSize)
+        .reduce((a, b) => a + b, 0) / (baselineSize - 1);
+
+    result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
+
 
     return result
 
@@ -65,7 +76,6 @@ describe('Compute the Average for the baseline', () => {
         expect(result).toHaveProperty('AVERAGE');
     })
 
-    // Baseline is 10 points for now
     test.each([
         {data: [1], expected: [1]},
         {data: [1, 1], expected: [1, 1]},
@@ -84,4 +94,22 @@ describe('Compute the Average for the baseline', () => {
     })
 
 });
+
+describe('Compute the Average Moving Range for the baseline', () => {
+    test('have Average Moving Range to the result object', () => {
+        const result = pbc([]);
+        expect(result).toHaveProperty('AVERAGE_MOVING_RANGE');
+    })
+
+    test.each([
+        {data: [1, 2], expected: [1, 1]},
+        {data: [0, 2], expected: [2, 2]},
+        {data: [0, -2], expected: [2, 2]},
+        {data: [0, 2, 4], expected: [2, 2, 2]},
+        {data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10], expected: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
+        {data: [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 10], expected: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Average Moving Range value is the average of the moving range between two measurements in the baseline', ({data, expected}) => {
+        const result = pbc(data);
+        expect(result.AVERAGE_MOVING_RANGE).toStrictEqual(expected);
+    })
 });
