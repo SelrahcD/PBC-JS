@@ -37,10 +37,10 @@ const computePBC = (data) => {
         result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
     }
 
-    result.AVERAGE = new Array(data.length).fill(processAverage);
-
     const averageMovingRange = average(result.MOVING_RANGE.slice(1, baselineSize));
     result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
+
+    result.AVERAGE = new Array(data.length).fill(processAverage);
 
     const lowerLimit = result.AVERAGE[0] - (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
     const upperLimit = result.AVERAGE[0] + (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
