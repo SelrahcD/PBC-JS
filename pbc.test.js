@@ -19,20 +19,16 @@ const computePBC = (data) => {
     const baselineRequestedSize = 10;
 
     const baselineSize = Math.min(baselineRequestedSize, data.length)
-
     const baseline = data.slice(0, baselineSize);
 
     const processAverage = average(baseline);
 
     const movingRange = [];
-
-    for(let i = 1; i < baselineSize; i++) {
-        const currentValue = data[i];
-        const previousValue = data[i - 1];
-
+    for(let i = 1; i < baseline.length; i++) {
+        let currentValue = baseline[i];
+        let previousValue = baseline[i - 1];
         movingRange.push(Math.abs(currentValue - previousValue))
     }
-
     const averageMovingRange = average(movingRange);
 
     result.AVERAGE = new Array(data.length).fill(processAverage);
