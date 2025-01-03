@@ -7,6 +7,7 @@ test('adds 1 + 2 to equal 3', () => {
 // Baseline is 10 points for now
 // Add test if we have less measurements than the baseline
 
+const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
 const computePBC = (data) => {
     let result = {
@@ -19,8 +20,6 @@ const computePBC = (data) => {
     const baselineRequestedSize = 10;
 
     const baselineSize = Math.min(baselineRequestedSize, data.length)
-
-    const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
     const processAverage = average(data.slice(0, baselineSize));
 
