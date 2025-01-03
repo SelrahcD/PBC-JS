@@ -22,11 +22,11 @@ const computePBC = (data) => {
 
     const mathAverage = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
-    const average = mathAverage(data.slice(0, baselineSize));
+    const processAverage = mathAverage(data.slice(0, baselineSize));
 
     for(let i = 0; i < data.length; i++) {
 
-        result.AVERAGE.push(average);
+        result.AVERAGE.push(processAverage);
 
         if(i === 0) {
             result.MOVING_RANGE.push("")
