@@ -21,9 +21,8 @@ const computePBC = (data) => {
     const baselineSize = Math.min(baselineRequestedSize, data.length)
     const baseline = data.slice(0, baselineSize);
 
-    const processAverage = average(baseline);
-
     const movingRange = [];
+
     for(let i = 1; i < baseline.length; i++) {
         let currentValue = baseline[i];
         let previousValue = baseline[i - 1];
@@ -31,12 +30,13 @@ const computePBC = (data) => {
     }
     const averageMovingRange = average(movingRange);
 
+    const processAverage = average(baseline);
     result.AVERAGE = new Array(data.length).fill(processAverage);
 
     const lowerLimit = result.AVERAGE[0] - (3 * averageMovingRange / 1.128);
-    const upperLimit = result.AVERAGE[0] + (3 * averageMovingRange / 1.128);
-
     result.LOWER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(lowerLimit);
+
+    const upperLimit = result.AVERAGE[0] + (3 * averageMovingRange / 1.128);
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
 
     return result
