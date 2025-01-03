@@ -89,6 +89,7 @@ describe('Compute the Moving Range between two measurements', () => {
         {data: [0,-1], expected: ["", 1]},
         {data: [0, 1, 0], expected: ["", 1, 1]},
         {data: [0, 1, 10, 5, 6, 3], expected: ["", 1, 9, 5, 1, 3]},
+        {data: [0, 0.5,], expected: ["", 0.5]},
     ])('Value is absolute value of difference between current and previous measurements', ({data, expected}) => {
         const result = computePBC(data);
         expect(result.MOVING_RANGE).toStrictEqual(expected);
@@ -181,4 +182,4 @@ describe('transpose', () => {
 
         expect(() => transpose(obj)).toThrowError('All columns must be of same length.')
     })
-})
+});
