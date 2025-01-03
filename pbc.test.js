@@ -73,6 +73,15 @@ function transpose(obj) {
     return result
 }
 
+/**
+ * Compute a Process Behavior Charts and list signal detections
+ *
+ * @param {array[number]} data The list of measurements to include in the PBC.
+ * @return {array[array]} the PBC
+ * @customfunction
+ */
+const pbc = (data) => transpose(computePBC(data.map(x => x[0])));
+
 describe('Compute the Moving Range between two measurements', () => {
     test('have Moving Range to the result object', () => {
         const result = computePBC([]);
