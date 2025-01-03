@@ -44,12 +44,16 @@ const computePBC = (data) => {
 
     result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
 
-    for(let i = 0; i < data.length; i++) {
-        result.LOWER_NATURAL_PROCESS_LIMIT.push(result.AVERAGE[i] - (3 * result.AVERAGE_MOVING_RANGE[i] / 1.128))
-    }
+    const lowerLimit = result.AVERAGE[0] - (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
 
     for(let i = 0; i < data.length; i++) {
-        result.UPPER_NATURAL_PROCESS_LIMIT.push(result.AVERAGE[i] + (3 * result.AVERAGE_MOVING_RANGE[i] / 1.128))
+        result.LOWER_NATURAL_PROCESS_LIMIT.push(lowerLimit)
+    }
+
+    const upperLimit = result.AVERAGE[0] + (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
+
+    for(let i = 0; i < data.length; i++) {
+        result.UPPER_NATURAL_PROCESS_LIMIT.push(upperLimit)
     }
 
 
