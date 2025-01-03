@@ -39,18 +39,14 @@ const computePBC = (data) => {
         result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
     }
 
-    const averageMovingRange = average(result.MOVING_RANGE
-        .slice(1, baselineSize));
-
+    const averageMovingRange = average(result.MOVING_RANGE.slice(1, baselineSize));
     result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
 
     const lowerLimit = result.AVERAGE[0] - (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
     const upperLimit = result.AVERAGE[0] + (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
 
-    for(let i = 0; i < data.length; i++) {
-        result.LOWER_NATURAL_PROCESS_LIMIT.push(lowerLimit)
-        result.UPPER_NATURAL_PROCESS_LIMIT.push(upperLimit)
-    }
+    result.LOWER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(lowerLimit);
+    result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
 
     return result
 }
