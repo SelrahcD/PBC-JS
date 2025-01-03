@@ -5,6 +5,7 @@ test('adds 1 + 2 to equal 3', () => {
 });
 
 // Baseline is 10 points for now
+// Add test if we have less measurements than the baseline
 
 
 const computePBC = (data) => {
