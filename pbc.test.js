@@ -14,7 +14,8 @@ const computePBC = (data) => {
         MOVING_RANGE: [],
         AVERAGE: [],
         AVERAGE_MOVING_RANGE: [],
-        LOWER_NATURAL_PROCESS_LIMIT: []
+        LOWER_NATURAL_PROCESS_LIMIT: [],
+        UPPER_NATURAL_PROCESS_LIMIT: [],
     }
 
     const baselineRequestedSize = 10;
@@ -45,6 +46,10 @@ const computePBC = (data) => {
 
     for(let i = 0; i < data.length; i++) {
         result.LOWER_NATURAL_PROCESS_LIMIT.push(Math.round((result.AVERAGE[i] - (3 * result.AVERAGE_MOVING_RANGE[i] / 1.128)) * 100) / 100)
+    }
+
+    for(let i = 0; i < data.length; i++) {
+        result.UPPER_NATURAL_PROCESS_LIMIT.push(Math.round((result.AVERAGE[i] + (3 * result.AVERAGE_MOVING_RANGE[i] / 1.128)) * 100) / 100)
     }
 
 
@@ -165,6 +170,23 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
     ])('Compute Lower Natural Process Limit to the result object', ({data, expected}) => {
         const result = computePBC(data);
         expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
+    })
+
+})
+
+describe('Compute the Upper Natural Process Limit to the result object', () => {
+
+    test('have Lower Natural Process Limit to the result object', () => {
+        const result = computePBC([]);
+        expect(result).toHaveProperty('UPPER_NATURAL_PROCESS_LIMIT');
+    })
+
+    test.each([
+        {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
+        {data: [1, 2, 1, 2], expected: [4.16, 4.16, 4.16, 4.16]},
+    ])('Compute Upper Natural Process Limit to the result object', ({data, expected}) => {
+        const result = computePBC(data);
+        expect(result.UPPER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
 })
