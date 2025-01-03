@@ -9,11 +9,25 @@ test('adds 1 + 2 to equal 3', () => {
 
 const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
+function rule1(data, lowerLimit, upperLimit) {
+    const signals = [];
+
+    for (let i = 0; i < data.length; i++) {
+        if (data[i] > upperLimit || data[i] < lowerLimit) {
+            signals.push(data[i])
+        } else {
+            signals.push("");
+        }
+    }
+    return signals;
+}
+
 const computePBC = (data) => {
     let result = {
         AVERAGE: [],
         LOWER_NATURAL_PROCESS_LIMIT: [],
         UPPER_NATURAL_PROCESS_LIMIT: [],
+        RULE_1: [],
     }
 
     const baselineRequestedSize = 10;
@@ -38,6 +52,8 @@ const computePBC = (data) => {
 
     const upperLimit = result.AVERAGE[0] + (3 * averageMovingRange / 1.128);
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
+
+    result.RULE_1 = rule1(data, lowerLimit, upperLimit);
 
     return result
 }
@@ -133,6 +149,36 @@ describe('Compute the Upper Natural Process Limit to the result object', () => {
 
 })
 
+
+describe('Rule 1 : One point above the UNPL or one point below the LNPL', () => {
+
+    test('Doesnt detect a point that is inside the limits', () => {
+        const result = rule1([1, 2, 1, 2], 0, 3);
+
+        expect(result).toStrictEqual(['', '', '', '',]);
+    })
+
+    test('Detects a point that is above the UNPL', () => {
+        const result = rule1([1, 4, 1, 2], 0, 3);
+        expect(result).toStrictEqual(['', 4, '', '']);
+    })
+
+    test('Detects a point that is below the LNPL', () => {
+        const result = rule1([1, -1, 1, 2], 0, 3);
+        expect(result).toStrictEqual(['', -1, '', '']);
+    })
+
+    test('Doesnt detect a point that is equal to the LNPL', () => {
+        const result = rule1([1, -1, 1, 2], -1, 3);
+        expect(result).toStrictEqual(['', '', '', '']);
+    })
+
+    test('Doesnt detect a point that is equal to the UNPL', () => {
+        const result = rule1([1, 2, 3, 2], 0, 3);
+        expect(result).toStrictEqual(['', '', '', '']);
+    })
+
+})
 describe('transpose', () => {
     test('Transpose object fields to two dimensions array', () => {
         const obj = {
