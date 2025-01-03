@@ -11,9 +11,7 @@ const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
 const computePBC = (data) => {
     let result = {
-        MOVING_RANGE: [],
         AVERAGE: [],
-        AVERAGE_MOVING_RANGE: [],
         LOWER_NATURAL_PROCESS_LIMIT: [],
         UPPER_NATURAL_PROCESS_LIMIT: [],
     }
@@ -33,26 +31,12 @@ const computePBC = (data) => {
         movingRange.push(Math.abs(currentValue - previousValue))
     }
 
-    for(let i = 0; i < data.length; i++) {
-
-        if(i === 0) {
-            result.MOVING_RANGE.push("")
-            continue
-        }
-
-        const currentValue = data[i];
-        const previousValue = data[i - 1];
-
-        result.MOVING_RANGE.push(Math.abs(currentValue - previousValue))
-    }
-
     const averageMovingRange = average(movingRange);
-    result.AVERAGE_MOVING_RANGE = new Array(data.length).fill(averageMovingRange);
 
     result.AVERAGE = new Array(data.length).fill(processAverage);
 
-    const lowerLimit = result.AVERAGE[0] - (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
-    const upperLimit = result.AVERAGE[0] + (3 * result.AVERAGE_MOVING_RANGE[0] / 1.128);
+    const lowerLimit = result.AVERAGE[0] - (3 * averageMovingRange / 1.128);
+    const upperLimit = result.AVERAGE[0] + (3 * averageMovingRange / 1.128);
 
     result.LOWER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(lowerLimit);
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
@@ -92,31 +76,6 @@ function transpose(obj) {
  */
 const pbc = (data) => transpose(computePBC(data.map(x => x[0])));
 
-describe('Compute the Moving Range between two measurements', () => {
-    test('have Moving Range to the result object', () => {
-        const result = computePBC([]);
-        expect(result).toHaveProperty('MOVING_RANGE');
-    })
-
-    test('Doesnt add value for first row', () => {
-        const result = computePBC([1]);
-        expect(result.MOVING_RANGE).toStrictEqual([""]);
-    })
-
-    test.each([
-        {data: [0, 1], expected: ["", 1]},
-        {data: [0,-1], expected: ["", 1]},
-        {data: [0, 1, 0], expected: ["", 1, 1]},
-        {data: [0, 1, 10, 5, 6, 3], expected: ["", 1, 9, 5, 1, 3]},
-        {data: [0, 0.5,], expected: ["", 0.5]},
-    ])('Value is absolute value of difference between current and previous measurements', ({data, expected}) => {
-        const result = computePBC(data);
-        expect(result.MOVING_RANGE).toStrictEqual(expected);
-
-    })
-    
-});
-
 describe('Compute the Average for the baseline', () => {
     test('have Average to the result object', () => {
         const result = computePBC([]);
@@ -140,25 +99,6 @@ describe('Compute the Average for the baseline', () => {
         expect(result.AVERAGE).toStrictEqual(expected);
     })
 
-});
-
-describe('Compute the Average Moving Range for the baseline', () => {
-    test('have Average Moving Range to the result object', () => {
-        const result = computePBC([]);
-        expect(result).toHaveProperty('AVERAGE_MOVING_RANGE');
-    })
-
-    test.each([
-        {data: [1, 2], expected: [1, 1]},
-        {data: [0, 2], expected: [2, 2]},
-        {data: [0, -2], expected: [2, 2]},
-        {data: [0, 2, 4], expected: [2, 2, 2]},
-        {data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10], expected: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]},
-        {data: [1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 10], expected: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
-    ])('Average Moving Range value is the average of the moving range between two measurements in the baseline', ({data, expected}) => {
-        const result = computePBC(data);
-        expect(result.AVERAGE_MOVING_RANGE).toStrictEqual(expected);
-    })
 });
 
 describe('Compute the Lower Natural Process Limit to the result object', () => {
