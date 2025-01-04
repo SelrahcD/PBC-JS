@@ -6,6 +6,7 @@ test('adds 1 + 2 to equal 3', () => {
 
 // Baseline is 10 points for now
 // Add test if we have less measurements than the baseline
+// Add test at an higher level with a full working example
 
 const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
 
@@ -22,12 +23,52 @@ function rule1(data, lowerLimit, upperLimit) {
     return signals;
 }
 
+// This could probably be achieved with recursion.
+// Would probably be nicer.
+function rule2(data, average) {
+    let signals = [];
+    let seqCount = 0;
+    let prevAboveOrUnder = data[0] > average ? 'above' : 'under';
+    let aboveOrUnder = '';
+    let i;
+
+    function addElementsStartingFrom(data, signals, i, seqCount) {
+        for (let j = i - seqCount; j < i; j++) {
+            if (seqCount >= 8) {
+                signals.push(data[j]);
+            } else {
+                signals.push('');
+            }
+        }
+
+        return signals;
+    }
+
+    for (i = 0; i < data.length; i++) {
+
+        aboveOrUnder = data[i] > average ? 'above' : 'under';
+
+        if (prevAboveOrUnder !== aboveOrUnder) {
+            signals = addElementsStartingFrom(data, signals, i, seqCount);
+
+            seqCount = 1;
+        } else {
+            seqCount++;
+        }
+
+        prevAboveOrUnder = aboveOrUnder;
+    }
+
+    return addElementsStartingFrom(data, signals, i, seqCount);
+}
+
 const computePBC = (data) => {
     let result = {
         AVERAGE: [],
         LOWER_NATURAL_PROCESS_LIMIT: [],
         UPPER_NATURAL_PROCESS_LIMIT: [],
         RULE_1: [],
+        RULE_2: [],
     }
 
     const baselineRequestedSize = 10;
@@ -54,6 +95,7 @@ const computePBC = (data) => {
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
 
     result.RULE_1 = rule1(data, lowerLimit, upperLimit);
+    result.RULE2 = rule2(data, lowerLimit, upperLimit);
 
     return result
 }
@@ -179,6 +221,75 @@ describe('Rule 1 : One point above the UNPL or one point below the LNPL', () => 
     })
 
 })
+
+describe('Rule 2 : Eight consecutive points on the same side of the central line.', () => {
+
+    test('Doesnt detect a rule 2 signal in a group of less than 8 points', () => {
+        const result = rule2([1, 3, 1, 3, 1, 3, 1], 2);
+
+        expect(result).toStrictEqual(['', '', '', '', '', '', '']);
+    })
+
+    test.each([
+        {data: [1, 3, 1, 3, 1, 3, 1, 3]},
+        {data: [1, 1, 1, 1, 1, 1, 1, 3]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 1]},
+        {data: [1, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [3, 3, 3, 1, 3, 3, 3, 3]},
+    ])('Doesnt detect a rule 2 signal in a group of 8 points going above and under the average', ({data}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(['', '', '', '', '', '', '', '']);
+    })
+
+    test.each([
+        {data: [3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Detects a rule 2 signal in a group of 8 points all above and under the average', ({data}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(data);
+    })
+
+    test.each([
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [1, 1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Detects a rule 2 signal in a group of more than 8 points all above and under the average', ({data}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(data);
+    })
+
+    test.each([
+        {data: [1, 3, 3, 3, 3, 3, 3, 3, 3], expected: ['', 3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [3, 1, 1, 1, 1, 1, 1, 1, 1], expected: ['', 1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Doesnt detect measurement before a rule 2 signal as being part it', ({data, expected}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, '']},
+        {data: [1, 1, 1, 1, 1, 1, 1, 1, 3], expected: [1, 1, 1, 1, 1, 1, 1, 1, '']},
+    ])('Doesnt detect measurement after a rule 2 signal as being part it', ({data, expected}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, '', '', 1, 1, 1, 1, 1, 1, 1, 1]},
+    ])('Detects multiple rule 2 signal', ({data, expected}) => {
+        const result = rule2(data, 2);
+
+        expect(result).toStrictEqual(expected);
+    })
+
+});
 describe('transpose', () => {
     test('Transpose object fields to two dimensions array', () => {
         const obj = {
