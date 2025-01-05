@@ -103,7 +103,7 @@ const computePBC = (data) => {
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
 
     result.RULE_1 = rule1(data, lowerLimit, upperLimit);
-    result.RULE_2 = rule2(data, lowerLimit, upperLimit);
+    result.RULE_2 = rule2(data, processAverage);
 
     return result
 }
@@ -308,12 +308,14 @@ describe('Rule 2 : Eight consecutive points on the same side of the central line
     })
 
     test.each([
-        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
-        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
-        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3], expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3]},
-        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1], expected: [3, 3, 3, 3, 3, 3, 3, 3, '', '', 1, 1, 1, 1, 1, 1, 1, 1]},
-    ])('Detects multiple rule 2 signal', ({data, expected}) => {
-        const result = rule2(data, 2);
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], average: 2, expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1], average: 2, expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3], average: 2, expected: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1], average: 2, expected: [3, 3, 3, 3, 3, 3, 3, 3, '', '', 1, 1, 1, 1, 1, 1, 1, 1]},
+        {data: [3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3], average: 2, expected: [3, 3, 3, 3, 3, 3, 3, 3, '', '', '', 3, 3, 3, 3, 3, 3, 3, 3]},
+        {data: [82.30, 82.60, 82.90, 82.70, 82.70, 82.30, 82.90, 82.50, 82.60, 82.40, 81.80, 81.80, 81.60, 81.30, 81.70, 81.80, 81.70, 82.00, 81.20, 81.40, 83.20, 82.80, 82.00, 81.90, 82.50, 83.20, 82.90, 81.80, 81.60,], average: 82.16, expected: [82.30, 82.60, 82.90, 82.70, 82.70, 82.30, 82.90, 82.50, 82.60, 82.40, 81.80, 81.80, 81.60, 81.30, 81.70, 81.80, 81.70, 82.00, 81.20, 81.40, '', '', '', '', '', '', '', '', '',]},
+    ])('Detects multiple rule 2 signal', ({data, average, expected}) => {
+        const result = rule2(data, average);
 
         expect(result).toStrictEqual(expected);
     })
