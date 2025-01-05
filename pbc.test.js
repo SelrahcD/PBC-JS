@@ -177,6 +177,7 @@ describe('Compute the Average for the baseline', () => {
     test.each([
         {data: [1], expected: [1]},
         {data: [1, 1], expected: [1, 1]},
+        {data: [1, -1], expected: [0, 0]},
         {data: [1, 3], expected: [2, 2]},
         {data: [1, -1], expected: [0, 0]},
     ])('Average value is the average of the measurements in the baseline', ({data, expected}) => {
@@ -197,6 +198,7 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
 
     test.each([
         {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
+        {data: [1, 0, -1], expected: [-2.659574468085107, -2.659574468085107, -2.659574468085107]},
         {data: [1, 2, 1, 2], expected: [-1.1595744680851068, -1.1595744680851068, -1.1595744680851068, -1.1595744680851068]},
     ])('Compute Lower Natural Process Limit to the result object', ({data, expected}) => {
         const result = computePBC(data);
@@ -209,6 +211,7 @@ describe('Compute the Upper Natural Process Limit to the result object', () => {
 
     test.each([
         {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
+        {data: [1, 0, -1], expected: [2.659574468085107, 2.659574468085107, 2.659574468085107]},
         {data: [1, 2, 1, 2], expected: [4.159574468085107, 4.159574468085107, 4.159574468085107, 4.159574468085107]},
     ])('Compute Upper Natural Process Limit to the result object', ({data, expected}) => {
         const result = computePBC(data);
