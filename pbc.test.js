@@ -123,6 +123,12 @@ function transpose(obj) {
     return result
 }
 
+function prepareDataFromGoogleSheet(data) {
+    return data.map(x => {
+        return x instanceof Array ? x[0] : x;
+    }).filter(x => x !== '');
+}
+
 /**
  * Compute a Process Behavior Charts and list signal detections
  *
@@ -130,9 +136,7 @@ function transpose(obj) {
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data) => transpose(computePBC(data.map(x => {
-    return x instanceof Array ? x[0] : x;
-})));
+const pbc = (data) => transpose(computePBC(prepareDataFromGoogleSheet(data)));
 
 describe('Compute the data for a Process Behavior Chart', () => {
 
@@ -338,5 +342,30 @@ describe('transpose', () => {
         }
 
         expect(() => transpose(obj)).toThrowError('All columns must be of same length.')
+    })
+});
+
+
+describe('prepare data from Google Sheet', () => {
+
+    test('Transforms data as array of array to a simple array', () => {
+        const preparedData = prepareDataFromGoogleSheet([['A'], ['B'], ['C'], ['D']]);
+        expect(preparedData).toStrictEqual(['A', 'B', 'C', 'D']);
+    })
+
+    test('Keeps data as a simple array as it is', () => {
+        expect(prepareDataFromGoogleSheet(['A', 'B', 'C', 'D'])).toStrictEqual(['A', 'B', 'C', 'D']);
+    })
+
+    test.
+    each([
+        {data: ['A', 'B', 'C', ''], expected: ['A', 'B', 'C']},
+        {data: [['A'], ['B'], ['C'], ['']], expected: ['A', 'B', 'C']},
+        {data: ['A', '', 'C'], expected: ['A', 'C']},
+        {data: [['A'], [''], ['C']], expected: ['A', 'C']},
+    ])
+    ('Remove empty values', ({data, expected}) => {
+        const preparedData = prepareDataFromGoogleSheet(data);
+        expect(preparedData).toStrictEqual(expected);
     })
 });
