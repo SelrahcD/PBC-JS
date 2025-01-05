@@ -8,7 +8,12 @@ test('adds 1 + 2 to equal 3', () => {
 // Add test if we have less measurements than the baseline
 // Add test at an higher level with a full working example
 
-const average = (data) => data.reduce((sum, x) => sum + x, 0) / data.length;
+const average = (data) => {
+
+    if(data.length === 0) return 0;
+
+    return data.reduce((sum, x) => sum + x, 0) / data.length
+};
 
 function rule1(data, lowerLimit, upperLimit) {
     const signals = [];
