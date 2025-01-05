@@ -63,6 +63,9 @@ function rule2(data, average) {
 }
 
 const computePBC = (data) => {
+
+    if(data.length === 0) throw new Error('Data array must not be empty.');
+
     let result = {
         AVERAGE: [],
         LOWER_NATURAL_PROCESS_LIMIT: [],
@@ -158,13 +161,13 @@ describe('Compute the data for a Process Behavior Chart', () => {
 
         expect(pbcData1).toStrictEqual(pbcData2);
     })
+
+    test('Fails if the data array is empty', () => {
+        expect(() => pbc([])).toThrowError('Data array must not be empty.')
+    })
 });
 
 describe('Compute the Average for the baseline', () => {
-    test('have Average to the result object', () => {
-        const result = computePBC([]);
-        expect(result).toHaveProperty('AVERAGE');
-    })
 
     test.each([
         {data: [1], expected: [1]},
@@ -187,11 +190,6 @@ describe('Compute the Average for the baseline', () => {
 
 describe('Compute the Lower Natural Process Limit to the result object', () => {
 
-    test('have Lower Natural Process Limit to the result object', () => {
-        const result = computePBC([]);
-        expect(result).toHaveProperty('LOWER_NATURAL_PROCESS_LIMIT');
-    })
-
     test.each([
         {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
         {data: [1, 2, 1, 2], expected: [-1.1595744680851068, -1.1595744680851068, -1.1595744680851068, -1.1595744680851068]},
@@ -203,11 +201,6 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
 })
 
 describe('Compute the Upper Natural Process Limit to the result object', () => {
-
-    test('have Lower Natural Process Limit to the result object', () => {
-        const result = computePBC([]);
-        expect(result).toHaveProperty('UPPER_NATURAL_PROCESS_LIMIT');
-    })
 
     test.each([
         {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
