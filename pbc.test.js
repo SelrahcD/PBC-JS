@@ -95,7 +95,7 @@ const computePBC = (data) => {
     result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
 
     result.RULE_1 = rule1(data, lowerLimit, upperLimit);
-    result.RULE2 = rule2(data, lowerLimit, upperLimit);
+    result.RULE_2 = rule2(data, lowerLimit, upperLimit);
 
     return result
 }
@@ -130,7 +130,31 @@ function transpose(obj) {
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data) => transpose(computePBC(data.map(x => x[0])));
+const pbc = (data) => transpose(computePBC(data.map(x => {
+    return x instanceof Array ? x[0] : x;
+})));
+
+describe('Compute the data for a Process Behavior Chart', () => {
+
+    test('Directly with an array of values', () => {
+        const pbcData = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4])
+
+        expect(pbcData).toMatchSnapshot();
+    })
+
+    test('With an array of array of one value', () => {
+        const pbcData = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]])
+
+        expect(pbcData).toMatchSnapshot();
+    })
+
+    test('As same result with sub-array or without', () => {
+        const pbcData1 = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4])
+        const pbcData2 = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]])
+
+        expect(pbcData1).toStrictEqual(pbcData2);
+    })
+});
 
 describe('Compute the Average for the baseline', () => {
     test('have Average to the result object', () => {
@@ -290,6 +314,8 @@ describe('Rule 2 : Eight consecutive points on the same side of the central line
     })
 
 });
+
+
 describe('transpose', () => {
     test('Transpose object fields to two dimensions array', () => {
         const obj = {
