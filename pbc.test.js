@@ -144,7 +144,7 @@ function prepareDataFromGoogleSheet(data) {
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data) => transpose(computeOneProcess(prepareDataFromGoogleSheet(data)));
+const pbc = (data, instructions = []) => transpose(computeOneProcess(prepareDataFromGoogleSheet(data)));
 
 describe('Compute the data for a Process Behavior Chart', () => {
 
