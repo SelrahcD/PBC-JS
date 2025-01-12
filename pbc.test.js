@@ -213,34 +213,45 @@ describe('Compute the data for a Process Behavior Chart', () => {
     test('Fails if the data array is empty', () => {
         expect(() => pbc([])).toThrowError('Data array must not be empty.')
     })
+});
 
 
-    describe('Allows to compute different process using "Change limits" instruction', () => {
-        test('Doesnt fail if the instruction parameters is missing', () => {
-            const pbcData = pbc([1, 10, 2, 5, 15, -2]);
-            expect(pbcData).toMatchSnapshot()
-        })
+describe('Instructions', () => {
 
-        test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
-            const pbcData = pbc([1, 1, 1], ['', '', '', '']);
-            expect(pbcData).toMatchSnapshot()
-        })
+    test('Doesnt fail if the instruction parameters is missing', () => {
+        const pbcData = pbc([1, 10, 2, 5, 15, -2]);
+        expect(pbcData).toMatchSnapshot()
+    })
 
-        test('When there is more instruction rows than data rows, as same result as with same number of rowsd', () => {
-            const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', '']);
-            const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', '']);
-            expect(pbcWithMoreRows).toStrictEqual(pbcWithSameNumberOfRows)
-        })
+    test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
+        const pbcData = pbc([1, 1, 1], ['',]);
+        expect(pbcData).toMatchSnapshot()
+    })
 
-        test('Doesnt fail if the instructions contain something else than "Change limits"', () => {
-            const pbcData = pbc([1, 1, 1], ['', '', 'something else', '']);
-            expect(pbcData).toMatchSnapshot()
-        })
+    test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
+        const pbcData = pbc([1, 1, 1], ['', '', '', '']);
+        expect(pbcData).toMatchSnapshot()
+    })
 
-        test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
-            const pbcData = pbc([1, 1, 1], ['',]);
-            expect(pbcData).toMatchSnapshot()
-        })
+    test('When there is more instruction rows than data rows, as same result as with same number of rowsd', () => {
+        const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', '']);
+        const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', '']);
+        expect(pbcWithMoreRows).toStrictEqual(pbcWithSameNumberOfRows)
+    })
+
+    test('Doesnt fail if the instructions contain an unknown instruction', () => {
+        const pbcData = pbc([1, 1, 1], ['', '', 'unknown instruction', '']);
+        expect(pbcData).toMatchSnapshot()
+    })
+
+    test('Accept instructions in array of array', () => {
+        const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']])
+        const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
+
+        expect(pbcWithInstructionInArray).toStrictEqual(pbcWithInstructionNotInArray)
+    })
+
+    describe('Change limits instruction allows to split data into multiple sub-processes', () => {
 
         test('Using "Change limits" instruction on first line doesnt change the result', () => {
             const pbcWithoutInstruction = pbc([1, 10, 2, 5, 15, -2])
@@ -256,15 +267,8 @@ describe('Compute the data for a Process Behavior Chart', () => {
             const [headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
             expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
         })
-
-        test('Accept instructions in array of array', () => {
-            const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']])
-            const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
-
-            expect(pbcWithInstructionInArray).toStrictEqual(pbcWithInstructionNotInArray)
-        })
     })
-});
+})
 
 describe('Compute the Average for the baseline', () => {
 

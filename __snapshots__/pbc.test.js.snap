@@ -1,191 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Compute the data for a Process Behavior Chart Allows to compute different process using "Change limits" instruction Doesnt fail if the instruction parameters contains less rows than the data one 1`] = `
-[
-  [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-]
-`;
-
-exports[`Compute the data for a Process Behavior Chart Allows to compute different process using "Change limits" instruction Doesnt fail if the instruction parameters contains more rows than the data one 1`] = `
-[
-  [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-]
-`;
-
-exports[`Compute the data for a Process Behavior Chart Allows to compute different process using "Change limits" instruction Doesnt fail if the instruction parameters contains more rows than the data one 2`] = `
-[
-  [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-]
-`;
-
-exports[`Compute the data for a Process Behavior Chart Allows to compute different process using "Change limits" instruction Doesnt fail if the instruction parameters is missing 1`] = `
-[
-  [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-  [
-    5.166666666666667,
-    -19.833333333333336,
-    30.16666666666667,
-    "",
-    "",
-  ],
-]
-`;
-
-exports[`Compute the data for a Process Behavior Chart Allows to compute different process using "Change limits" instruction Doesnt fail if the instructions contain something else than "Change limits" 1`] = `
-[
-  [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-  [
-    1,
-    1,
-    1,
-    "",
-    "",
-  ],
-]
-`;
-
 exports[`Compute the data for a Process Behavior Chart Directly with an array of values 1`] = `
 [
   [
@@ -752,6 +566,159 @@ exports[`Compute the data for a Process Behavior Chart With an array of array of
     83.3287706855792,
     81.4,
     81.4,
+  ],
+]
+`;
+
+exports[`Instructions Doesnt fail if the instruction parameters contains less rows than the data one 1`] = `
+[
+  [
+    "AVERAGE",
+    "LOWER_NATURAL_PROCESS_LIMIT",
+    "UPPER_NATURAL_PROCESS_LIMIT",
+    "RULE_1",
+    "RULE_2",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+]
+`;
+
+exports[`Instructions Doesnt fail if the instruction parameters contains more rows than the data one 1`] = `
+[
+  [
+    "AVERAGE",
+    "LOWER_NATURAL_PROCESS_LIMIT",
+    "UPPER_NATURAL_PROCESS_LIMIT",
+    "RULE_1",
+    "RULE_2",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+]
+`;
+
+exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] = `
+[
+  [
+    "AVERAGE",
+    "LOWER_NATURAL_PROCESS_LIMIT",
+    "UPPER_NATURAL_PROCESS_LIMIT",
+    "RULE_1",
+    "RULE_2",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+  [
+    5.166666666666667,
+    -19.833333333333336,
+    30.16666666666667,
+    "",
+    "",
+  ],
+]
+`;
+
+exports[`Instructions Doesnt fail if the instructions contain an unknown instruction 1`] = `
+[
+  [
+    "AVERAGE",
+    "LOWER_NATURAL_PROCESS_LIMIT",
+    "UPPER_NATURAL_PROCESS_LIMIT",
+    "RULE_1",
+    "RULE_2",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
+  ],
+  [
+    1,
+    1,
+    1,
+    "",
+    "",
   ],
 ]
 `;
