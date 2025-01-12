@@ -21,7 +21,7 @@ const rule1 = (data, lowerLimit, upperLimit) => {
 
 // This could probably be achieved with recursion.
 // Would probably be nicer.
-function rule2(data, average) {
+const rule2 = (data, average) => {
     let signals = [];
     let seqCount = 0;
     let prevAboveOrUnder = data[0] > average ? 'above' : 'under';
