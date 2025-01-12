@@ -141,6 +141,12 @@ function prepareDataFromGoogleSheet(data) {
     }).filter(x => x !== '');
 }
 
+function prepareInstructionsFromGoogleSheet(data) {
+    return data.map(x => {
+        return x instanceof Array ? x[0] : x;
+    });
+}
+
 function mergeProcesses(process1, process2) {
     const mergedProcesses = {};
 
@@ -162,13 +168,13 @@ function mergeProcesses(process1, process2) {
 const pbc = (data, instructions = []) =>  {
 
     const cleanData = prepareDataFromGoogleSheet(data);
-    const cleanInstructions = prepareDataFromGoogleSheet(instructions);
+    const cleanInstructions = prepareInstructionsFromGoogleSheet(instructions)
 
     const processes = [];
 
     let currentProcess = [];
     for (let i = 0; i < data.length; i++) {
-        if(instructions[i] === 'Change limits' && i > 0) {
+        if(cleanInstructions[i] === 'Change limits' && i > 0) {
             processes.push(currentProcess);
             currentProcess = [];
         }
@@ -216,8 +222,14 @@ describe('Compute the data for a Process Behavior Chart', () => {
         })
 
         test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
-            const pbcData = pbc([1, 1, 1], ['', '', '']);
+            const pbcData = pbc([1, 1, 1], ['', '', '', '']);
             expect(pbcData).toMatchSnapshot()
+        })
+
+        test('When there is more instruction rows than data rows, as same result as with same number of rowsd', () => {
+            const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', '']);
+            const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', '']);
+            expect(pbcWithMoreRows).toStrictEqual(pbcWithSameNumberOfRows)
         })
 
         test('Doesnt fail if the instructions contain something else than "Change limits"', () => {
@@ -243,6 +255,13 @@ describe('Compute the data for a Process Behavior Chart', () => {
 
             const [headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
             expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
+        })
+
+        test('Accept instructions in array of array', () => {
+            const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']])
+            const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
+
+            expect(pbcWithInstructionInArray).toStrictEqual(pbcWithInstructionNotInArray)
         })
     })
 });
