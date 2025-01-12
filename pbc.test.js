@@ -164,7 +164,7 @@ const pbc = (data, instructions = []) =>  {
     const processes = [];
 
     let currentProcess = [];
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < cleanData.length; i++) {
         if(cleanInstructions[i] === 'Change limits' && i > 0) {
             processes.push(currentProcess);
             currentProcess = [];
@@ -174,7 +174,7 @@ const pbc = (data, instructions = []) =>  {
     processes.push(currentProcess);
 
     const globalPBC = processes
-        .map((data) => computeOneProcess(data))
+        .map((p) => computeOneProcess(p))
         .reduce(mergeProcesses, emptyPBC())
 
     return transpose(globalPBC)
@@ -203,6 +203,19 @@ describe('Compute the data for a Process Behavior Chart', () => {
 
     test('Fails if the data array is empty', () => {
         expect(() => pbc([])).toThrowError('Data array must not be empty.')
+    })
+
+    test('Do not create rows for empty data input', () => {
+        const pbcData = pbc([10, 5, 0, ''])
+
+        expect(pbcData.length).toBe(4)
+    })
+
+    test('Data with empty trailing inputs has same result as without them', () => {
+        const pbcDataWithEmptyLines = pbc([10, 5, 0, ''])
+        const pbcDataWithoutEmptyLines = pbc([10, 5, 0])
+
+        expect(pbcDataWithEmptyLines).toStrictEqual(pbcDataWithoutEmptyLines)
     })
 });
 
