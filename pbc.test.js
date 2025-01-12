@@ -67,7 +67,7 @@ function rule2(data, average) {
     return addElementsStartingFrom(data, signals, i, seqCount);
 }
 
-const computePBC = (data) => {
+const computeOneProcess = (data) => {
 
     if(data.length === 0) throw new Error('Data array must not be empty.');
 
@@ -144,7 +144,7 @@ function prepareDataFromGoogleSheet(data) {
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data) => transpose(computePBC(prepareDataFromGoogleSheet(data)));
+const pbc = (data) => transpose(computeOneProcess(prepareDataFromGoogleSheet(data)));
 
 describe('Compute the data for a Process Behavior Chart', () => {
 
@@ -181,14 +181,14 @@ describe('Compute the Average for the baseline', () => {
         {data: [1, 3], expected: [2, 2]},
         {data: [1, -1], expected: [0, 0]},
     ])('Average value is the average of the measurements in the baseline', ({data, expected}) => {
-        const result = computePBC(data);
+        const result = computeOneProcess(data);
         expect(result.AVERAGE).toStrictEqual(expected);
     })
 
     test.each([
         {data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 100], expected: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
     ])('Average doesnt use value outside of the baseline', ({data, expected}) => {
-        const result = computePBC(data);
+        const result = computeOneProcess(data);
         expect(result.AVERAGE).toStrictEqual(expected);
     })
 
@@ -201,7 +201,7 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
         {data: [1, 0, -1], expected: [-2.659574468085107, -2.659574468085107, -2.659574468085107]},
         {data: [1, 2, 1, 2], expected: [-1.1595744680851068, -1.1595744680851068, -1.1595744680851068, -1.1595744680851068]},
     ])('Compute Lower Natural Process Limit to the result object', ({data, expected}) => {
-        const result = computePBC(data);
+        const result = computeOneProcess(data);
         expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
@@ -214,7 +214,7 @@ describe('Compute the Upper Natural Process Limit to the result object', () => {
         {data: [1, 0, -1], expected: [2.659574468085107, 2.659574468085107, 2.659574468085107]},
         {data: [1, 2, 1, 2], expected: [4.159574468085107, 4.159574468085107, 4.159574468085107, 4.159574468085107]},
     ])('Compute Upper Natural Process Limit to the result object', ({data, expected}) => {
-        const result = computePBC(data);
+        const result = computeOneProcess(data);
         expect(result.UPPER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
