@@ -67,17 +67,21 @@ function rule2(data, average) {
     return addElementsStartingFrom(data, signals, i, seqCount);
 }
 
-const computeOneProcess = (data) => {
-
-    if(data.length === 0) throw new Error('Data array must not be empty.');
-
-    let result = {
+const emptyPBC = () => {
+    return {
         AVERAGE: [],
         LOWER_NATURAL_PROCESS_LIMIT: [],
         UPPER_NATURAL_PROCESS_LIMIT: [],
         RULE_1: [],
         RULE_2: [],
     }
+}
+
+const computeOneProcess = (data) => {
+
+    if(data.length === 0) throw new Error('Data array must not be empty.');
+
+    let result = emptyPBC()
 
     const baselineRequestedSize = 10;
 
@@ -113,7 +117,7 @@ function transpose(obj) {
 
     const lengths = keys.map(key => obj[key].length);
     const [firstLen, ...restLens] = lengths;
-    const allSameLength = restLens.every(len => len === firstLen); //?
+    const allSameLength = restLens.every(len => len === firstLen);
 
     if (!allSameLength) {
         throw new Error('All columns must be of same length.');
@@ -137,14 +141,47 @@ function prepareDataFromGoogleSheet(data) {
     }).filter(x => x !== '');
 }
 
+function mergeProcesses(process1, process2) {
+    const mergedProcesses = {};
+
+    for (const key in process1) {
+        mergedProcesses[key] = process1[key].concat(process2[key]);
+    }
+
+    return mergedProcesses;
+}
+
 /**
  * Compute a Process Behavior Charts and list signal detections
  *
  * @param {array[number]} data The list of measurements to include in the PBC.
+ * @param {array} instructions Instructions to change the PBC computation
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data, instructions = []) => transpose(computeOneProcess(prepareDataFromGoogleSheet(data)));
+const pbc = (data, instructions = []) =>  {
+
+    const cleanData = prepareDataFromGoogleSheet(data);
+    const cleanInstructions = prepareDataFromGoogleSheet(instructions);
+
+    const processes = [];
+
+    let currentProcess = [];
+    for (let i = 0; i < data.length; i++) {
+        if(instructions[i] === 'Change limits' && i > 0) {
+            processes.push(currentProcess);
+            currentProcess = [];
+        }
+        currentProcess.push(cleanData[i]);
+    }
+    processes.push(currentProcess);
+
+    const globalPBC = processes
+        .map((data) => computeOneProcess(data))
+        .reduce(mergeProcesses, emptyPBC())
+
+    return transpose(globalPBC)
+}
 
 describe('Compute the data for a Process Behavior Chart', () => {
 
@@ -169,6 +206,39 @@ describe('Compute the data for a Process Behavior Chart', () => {
 
     test('Fails if the data array is empty', () => {
         expect(() => pbc([])).toThrowError('Data array must not be empty.')
+    })
+
+
+    describe('Allows to compute different process using "Change limits" instruction', () => {
+        test('Doesnt fail if the instruction parameters is missing', () => {
+            const pbcData = pbc([1, 10, 2, 5, 15, -2]);
+            expect(pbcData).toMatchSnapshot()
+        })
+
+        test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
+            const pbcData = pbc([1, 1, 1], ['', '', '']);
+            expect(pbcData).toMatchSnapshot()
+        })
+
+        test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
+            const pbcData = pbc([1, 1, 1], ['',]);
+            expect(pbcData).toMatchSnapshot()
+        })
+
+        test('Using "Change limits" instruction on first line doesnt change the result', () => {
+            const pbcWithoutInstruction = pbc([1, 10, 2, 5, 15, -2])
+            const pbcWithInstruction =  pbc([1, 10, 2, 5, 15, -2], ['Change limits'])
+            expect(pbcWithInstruction).toStrictEqual(pbcWithoutInstruction)
+        })
+
+        test('Using "Change limits" instruction split the PBC into parts that would be equal to multiple small PBCs assembled', () => {
+            const pbcWithoutInstruction1 = pbc([1, 10,])
+            const pbcWithoutInstruction2 = pbc([100, 136])
+            const pbcWithInstruction =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
+
+            const [headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
+            expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
+        })
     })
 });
 
