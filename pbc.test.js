@@ -220,6 +220,11 @@ describe('Compute the data for a Process Behavior Chart', () => {
             expect(pbcData).toMatchSnapshot()
         })
 
+        test('Doesnt fail if the instructions contain something else than "Change limits"', () => {
+            const pbcData = pbc([1, 1, 1], ['', '', 'something else', '']);
+            expect(pbcData).toMatchSnapshot()
+        })
+
         test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
             const pbcData = pbc([1, 1, 1], ['',]);
             expect(pbcData).toMatchSnapshot()
