@@ -15,17 +15,8 @@ const average = (data) => {
     return data.reduce((sum, x) => sum + x, 0) / data.length
 };
 
-function rule1(data, lowerLimit, upperLimit) {
-    const signals = [];
-
-    for (let i = 0; i < data.length; i++) {
-        if (data[i] > upperLimit || data[i] < lowerLimit) {
-            signals.push(data[i])
-        } else {
-            signals.push("");
-        }
-    }
-    return signals;
+const rule1 = (data, lowerLimit, upperLimit) => {
+    return data.map(value => (value > upperLimit || value < lowerLimit) ? value : '')
 }
 
 // This could probably be achieved with recursion.
