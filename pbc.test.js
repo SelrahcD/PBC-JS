@@ -72,7 +72,7 @@ const computeOneProcess = (data) => {
 
     if(data.length === 0) throw new Error('Data array must not be empty.');
 
-    let result = emptyPBC()
+    let result = {}
 
     const baselineRequestedSize = 10;
 
