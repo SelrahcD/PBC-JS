@@ -103,7 +103,7 @@ const computeOneProcess = (data) => {
     return result
 }
 
-function transpose(obj) {
+const transpose = (obj)=> {
     const keys = Object.keys(obj)
 
     const lengths = keys.map(key => obj[key].length);
@@ -126,19 +126,19 @@ function transpose(obj) {
     return result
 }
 
-function prepareDataFromGoogleSheet(data) {
+const prepareDataFromGoogleSheet = (data) => {
     return data.map(x => {
         return x instanceof Array ? x[0] : x;
     }).filter(x => x !== '');
 }
 
-function prepareInstructionsFromGoogleSheet(data) {
+const prepareInstructionsFromGoogleSheet = (data) => {
     return data.map(x => {
         return x instanceof Array ? x[0] : x;
     });
 }
 
-function mergeProcesses(process1, process2) {
+const mergeProcesses = (process1, process2) => {
     const mergedProcesses = {};
 
     for (const key in process1) {
@@ -255,7 +255,7 @@ describe('Instructions', () => {
             const pbcWithoutInstruction2 = pbc([100, 136])
             const pbcWithInstruction =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
 
-            const [headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
+            const [_headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
             expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
         })
     })
