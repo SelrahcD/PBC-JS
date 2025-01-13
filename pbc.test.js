@@ -65,6 +65,7 @@ const emptyPBC = () => {
         UPPER_NATURAL_PROCESS_LIMIT: [],
         RULE_1: [],
         RULE_2: [],
+        RULE_3: [],
     }
 }
 
@@ -99,6 +100,7 @@ const computeOneProcess = (data) => {
 
     result.RULE_1 = rule1(data, lowerLimit, upperLimit);
     result.RULE_2 = rule2(data, processAverage);
+    result.RULE_3 = rule3(data, processAverage, lowerLimit, upperLimit);
 
     return result
 }
@@ -424,6 +426,139 @@ describe('Rule 2 : Eight consecutive points on the same side of the central line
 
 });
 
+const rule3 = (data, average, lowerLimit, upperLimit) => {
+
+    const upperQuarter = (average + upperLimit) / 2
+    const lowerQuarter = (average + lowerLimit) / 2
+
+    const createGroups = () => {
+        const groups = [];
+
+        for (let i = 0; i < data.length - 3; i++) {
+            groups.push({index: i, elements: data.slice(i, i + 4)});
+        }
+        return groups;
+    };
+
+    const isGroupASignal = ({index, elements}) => {
+
+        let countCloserToUpperLimit = 0;
+        let countCloserToLowerLimit = 0;
+
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i] > upperQuarter) {
+                countCloserToUpperLimit++
+            } else if (elements[i] < lowerQuarter) {
+                countCloserToLowerLimit++
+            }
+        }
+
+        return countCloserToUpperLimit >= 3 || countCloserToLowerLimit >= 3;
+    };
+
+    const groupsWithSignals = createGroups().filter(isGroupASignal
+    )
+
+    const result = new Array(data.length).fill('')
+
+    groupsWithSignals.forEach(({index, elements}) => {
+
+        for(let i = 0; i < elements.length; i++) {
+            result[index + i] = elements[i];
+        }
+
+    })
+
+    return result
+}
+
+describe('Rule 3 : Three out of four points closer to UNPL or LNPL than from central line', () => {
+
+    test.each([
+        {data: [], expected: []},
+        {data: [1], expected: ['']},
+        {data: [1, 1], expected: ['', '']},
+        {data: [1, 1, 1], expected: ['', '', '']},
+    ])('Doesnt detect signal for less than four points', ({data, expected}) => {
+        const result = rule3(data, 0, 0, 0);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [-1, 1, -1, 1], average: 0, expected: ['', '', '', '']},
+    ])('Doesnt detect signal for points on either side of the average', ({data, expected}) => {
+        const result = rule3(data, 0, -3, 3);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1, 1, 1, 1], average: 0, lowerLimit: -3, upperLimit: 3, expected: ['', '', '', '']},
+        {data: [-1, -1, -1, -1], average: 0, lowerLimit: -3, upperLimit: 3, expected: ['', '', '', '']},
+    ])('Doesnt detect signal if points are closer to the average than to one of the limits', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [2, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 2, 2, 2]},
+        {data: [-2, -2, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -2, -2, -2]},
+    ])('Detects signal if 4 points are closer to the same limit than the average', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    // Need to check that we don't count closer to the two limits
+    test.each([
+        {data: [2, 2, 2, 1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 2, 2, 1]},
+        {data: [2, 2, 1, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 2, 1, 2]},
+        {data: [2, 1, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 1, 2, 2]},
+        {data: [1, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [1, 2, 2, 2]},
+        {data: [-2, -2, -2, -1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -2, -2, -1]},
+        {data: [-2, -2, -1, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -2, -1, -2]},
+        {data: [-2, -1, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -1, -2, -2]},
+        {data: [-1, -2, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-1, -2, -2, -2]},
+    ])('Detects signal if 3 out of 4 points are closer to the same limit than the average', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1, 2, 2, 2, 1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [1, 2, 2, 2, 1]},
+        {data: [2, 2, 2, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 2, 2, 2, 2, 2]},
+        {data: [-2, -2, -2, -2, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -2, -2, -2, -2, -2]},
+        {data: [1, 2, 2, 2, 1, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [1, 2, 2, 2, 1, 2]},
+        {data: [-1, -2, -2, -2, -1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-1, -2, -2, -2, -1]},
+        {data: [-1, -2, -2, -2, -1, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-1, -2, -2, -2, -1, -2]},
+        {data: [1, 2, 2, 2, 1, 1, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [1, 2, 2, 2, 1, 1, 2, 2, 2]},
+        {data: [-1, -2, -2, -2, -1, -1, -2, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-1, -2, -2, -2, -1, -1, -2, -2, -2]},
+    ])('Detects multiple collocated signals if 3 out of 4 points are closer to the same limit than the average', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1, 2, 2, 2, 1, 1, 1, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: [1, 2, 2, 2, 1, '', 1, 2, 2, 2]},
+    ])('Detects multiple spaced signals', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [2, 2, 2, 1, 1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [2, 2, 2, 1, '']},
+        {data: [-2, -2, -2, -1, -1], average: 0, lowerLimit: -3, upperLimit: 3, expected: [-2, -2, -2, -1, '']},
+    ])('Doesnt include points after a signal', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1, 1, 2, 2, 2], average: 0, lowerLimit: -3, upperLimit: 3, expected: ['', 1, 2, 2, 2]},
+        {data: [-1, -1, -2, -2, -2], average: 0, lowerLimit: -3, upperLimit: 3, expected: ['', -1, -2, -2, -2]},
+    ])('Doesnt include points before a signal', ({data, average, lowerLimit, upperLimit, expected}) => {
+        const result = rule3(data, average, lowerLimit, upperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+});
 
 describe('transpose', () => {
     test('Transpose object fields to two dimensions array', () => {
