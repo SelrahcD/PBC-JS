@@ -85,13 +85,11 @@ const emptyPBC = () => {
     }
 }
 
-const computeOneProcess = (data) => {
+const computeOneProcess = (data, baselineRequestedSize) => {
 
     if(data.length === 0) throw new Error('Data array must not be empty.');
 
     let result = {}
-
-    const baselineRequestedSize = 10;
 
     const baselineSize = Math.min(baselineRequestedSize, data.length)
     const baseline = data.slice(0, baselineSize);
@@ -171,10 +169,11 @@ const mergeProcesses = (process1, process2) => {
  *
  * @param {array[number]} data The list of measurements to include in the PBC.
  * @param {array} instructions Instructions to change the PBC computation
+ * @param baselineSize int The number of points to include in the baseline
  * @return {array[array]} the PBC
  * @customfunction
  */
-const pbc = (data, instructions = []) =>  {
+const pbc = (data, instructions = [], baselineSize = 10) =>  {
 
     const cleanData = prepareDataFromGoogleSheet(data);
     const cleanInstructions = prepareInstructionsFromGoogleSheet(instructions)
@@ -192,7 +191,7 @@ const pbc = (data, instructions = []) =>  {
     processes.push(currentProcess);
 
     const globalPBC = processes
-        .map((p) => computeOneProcess(p))
+        .map((p) => computeOneProcess(p, baselineSize))
         .reduce(mergeProcesses, emptyPBC())
 
     return transpose(globalPBC)
@@ -201,37 +200,43 @@ const pbc = (data, instructions = []) =>  {
 describe('Compute the data for a Process Behavior Chart', () => {
 
     test('Directly with an array of values', () => {
-        const pbcData = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4])
+        const pbcData = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
 
         expect(pbcData).toMatchSnapshot();
     })
 
     test('With an array of array of one value', () => {
-        const pbcData = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]])
+        const pbcData = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
 
         expect(pbcData).toMatchSnapshot();
     })
 
     test('As same result with sub-array or without', () => {
-        const pbcData1 = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4])
-        const pbcData2 = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]])
+        const pbcData1 = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
+        const pbcData2 = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
 
         expect(pbcData1).toStrictEqual(pbcData2);
     })
 
+    test('Allows to change the baseline size', () => {
+        const pbcData = pbc([1, 2, 1], [],  2)
+
+        expect(pbcData).toMatchSnapshot()
+    })
+
     test('Fails if the data array is empty', () => {
-        expect(() => pbc([])).toThrowError('Data array must not be empty.')
+        expect(() => pbc([], [], 10)).toThrowError('Data array must not be empty.')
     })
 
     test('Do not create rows for empty data input', () => {
-        const pbcData = pbc([10, 5, 0, ''])
+        const pbcData = pbc([10, 5, 0, ''], [], 10)
 
         expect(pbcData.length).toBe(4)
     })
 
     test('Data with empty trailing inputs has same result as without them', () => {
-        const pbcDataWithEmptyLines = pbc([10, 5, 0, ''])
-        const pbcDataWithoutEmptyLines = pbc([10, 5, 0])
+        const pbcDataWithEmptyLines = pbc([10, 5, 0, ''], [], 10)
+        const pbcDataWithoutEmptyLines = pbc([10, 5, 0], [], 10)
 
         expect(pbcDataWithEmptyLines).toStrictEqual(pbcDataWithoutEmptyLines)
     })
@@ -241,34 +246,34 @@ describe('Compute the data for a Process Behavior Chart', () => {
 describe('Instructions', () => {
 
     test('Doesnt fail if the instruction parameters is missing', () => {
-        const pbcData = pbc([1, 10, 2, 5, 15, -2]);
+        const pbcData = pbc([1, 10, 2, 5, 15, -2], [], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
-        const pbcData = pbc([1, 1, 1], ['',]);
+        const pbcData = pbc([1, 1, 1], ['',], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
-        const pbcData = pbc([1, 1, 1], ['', '', '', '']);
+        const pbcData = pbc([1, 1, 1], ['', '', '', ''], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('When there is more instruction rows than data rows, as same result as with same number of rowsd', () => {
-        const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', '']);
-        const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', '']);
+        const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', ''], 10);
+        const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', ''], 10);
         expect(pbcWithMoreRows).toStrictEqual(pbcWithSameNumberOfRows)
     })
 
     test('Doesnt fail if the instructions contain an unknown instruction', () => {
-        const pbcData = pbc([1, 1, 1], ['', '', 'unknown instruction', '']);
+        const pbcData = pbc([1, 1, 1], ['', '', 'unknown instruction', ''], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Accept instructions in array of array', () => {
-        const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']])
-        const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
+        const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']], 10)
+        const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
 
         expect(pbcWithInstructionInArray).toStrictEqual(pbcWithInstructionNotInArray)
     })
@@ -276,15 +281,15 @@ describe('Instructions', () => {
     describe('Change limits instruction allows to split data into multiple sub-processes', () => {
 
         test('Using "Change limits" instruction on first line doesnt change the result', () => {
-            const pbcWithoutInstruction = pbc([1, 10, 2, 5, 15, -2])
-            const pbcWithInstruction =  pbc([1, 10, 2, 5, 15, -2], ['Change limits'])
+            const pbcWithoutInstruction = pbc([1, 10, 2, 5, 15, -2], [], 10)
+            const pbcWithInstruction =  pbc([1, 10, 2, 5, 15, -2], ['Change limits'], 10)
             expect(pbcWithInstruction).toStrictEqual(pbcWithoutInstruction)
         })
 
         test('Using "Change limits" instruction split the PBC into parts that would be equal to multiple small PBCs assembled', () => {
-            const pbcWithoutInstruction1 = pbc([1, 10,])
-            const pbcWithoutInstruction2 = pbc([100, 136])
-            const pbcWithInstruction =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''])
+            const pbcWithoutInstruction1 = pbc([1, 10,], [], 10)
+            const pbcWithoutInstruction2 = pbc([100, 136], [], 10)
+            const pbcWithInstruction =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
 
             const [_headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
             expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
@@ -295,20 +300,15 @@ describe('Instructions', () => {
 describe('Compute the Average for the baseline', () => {
 
     test.each([
-        {data: [1], expected: [1]},
-        {data: [1, 1], expected: [1, 1]},
-        {data: [1, -1], expected: [0, 0]},
-        {data: [1, 3], expected: [2, 2]},
-        {data: [1, -1], expected: [0, 0]},
-    ])('Average value is the average of the measurements in the baseline', ({data, expected}) => {
-        const result = computeOneProcess(data);
-        expect(result.AVERAGE).toStrictEqual(expected);
-    })
-
-    test.each([
-        {data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 100], expected: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]},
-    ])('Average doesnt use value outside of the baseline', ({data, expected}) => {
-        const result = computeOneProcess(data);
+        {data: [1], baselineSize: 1, expected: [1]},
+        {data: [1, 1], baselineSize: 2, expected: [1, 1]},
+        {data: [1, -1], baselineSize: 2, expected: [0, 0]},
+        {data: [1, 3], baselineSize: 2 ,expected: [2, 2]},
+        {data: [1, -1], baselineSize: 2, expected: [0, 0]},
+        {data: [1, 3], baselineSize: 1 ,expected: [1, 1]},
+        {data: [1, 3], baselineSize: 3 ,expected: [2, 2]},
+    ])('Average value is the average of the measurements in the baseline', ({data,  baselineSize, expected}) => {
+        const result = computeOneProcess(data, baselineSize);
         expect(result.AVERAGE).toStrictEqual(expected);
     })
 
@@ -317,11 +317,14 @@ describe('Compute the Average for the baseline', () => {
 describe('Compute the Lower Natural Process Limit to the result object', () => {
 
     test.each([
-        {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
-        {data: [1, 0, -1], expected: [-2.659574468085107, -2.659574468085107, -2.659574468085107]},
-        {data: [1, 2, 1, 2], expected: [-1.1595744680851068, -1.1595744680851068, -1.1595744680851068, -1.1595744680851068]},
-    ])('Compute Lower Natural Process Limit to the result object', ({data, expected}) => {
-        const result = computeOneProcess(data);
+        {data: [1, 1, 1, 1], baselineSize: 4, expected: [1, 1, 1, 1]},
+        {data: [1, 0, -1], baselineSize: 3, expected: [-2.659574468085107, -2.659574468085107, -2.659574468085107]},
+        {data: [1, 2, 1, 2], baselineSize: 4, expected: [-1.1595744680851068, -1.1595744680851068, -1.1595744680851068, -1.1595744680851068]},
+        {data: [0, 2, 1, 2], baselineSize: 1, expected: [0, 0, 0, 0]},
+        {data: [1, 1, 2, 2], baselineSize: 2, expected: [1, 1, 1, 1]},
+        {data: [-1, 1, 2, 2], baselineSize: 2, expected: [-5.319148936170214, -5.319148936170214, -5.319148936170214, -5.319148936170214]},
+    ])('Compute Lower Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
+        const result = computeOneProcess(data, baselineSize);
         expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
@@ -330,11 +333,14 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
 describe('Compute the Upper Natural Process Limit to the result object', () => {
 
     test.each([
-        {data: [1, 1, 1, 1], expected: [1, 1, 1, 1]},
-        {data: [1, 0, -1], expected: [2.659574468085107, 2.659574468085107, 2.659574468085107]},
-        {data: [1, 2, 1, 2], expected: [4.159574468085107, 4.159574468085107, 4.159574468085107, 4.159574468085107]},
-    ])('Compute Upper Natural Process Limit to the result object', ({data, expected}) => {
-        const result = computeOneProcess(data);
+        {data: [1, 1, 1, 1], baselineSize: 4, expected: [1, 1, 1, 1]},
+        {data: [1, 0, -1], baselineSize: 3, expected: [2.659574468085107, 2.659574468085107, 2.659574468085107]},
+        {data: [1, 2, 1, 2], baselineSize: 4, expected: [4.159574468085107, 4.159574468085107, 4.159574468085107, 4.159574468085107]},
+        {data: [0, 2, 1, 2], baselineSize: 1, expected: [0, 0, 0, 0]},
+        {data: [1, 1, 2, 2], baselineSize: 2, expected: [1, 1, 1, 1]},
+        {data: [-1, 1, 2, 2], baselineSize: 2, expected: [5.319148936170214, 5.319148936170214, 5.319148936170214, 5.319148936170214]},
+    ])('Compute Upper Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
+        const result = computeOneProcess(data, baselineSize);
         expect(result.UPPER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
     })
 
