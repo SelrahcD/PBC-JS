@@ -1,13 +1,3 @@
-const sum = require('./index');
-
-test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3);
-});
-
-// Baseline is 10 points for now
-// Add test if we have less measurements than the baseline
-// Add test at an higher level with a full working example
-
 const average = (data) => {
 
     if(data.length === 0) return 0;
