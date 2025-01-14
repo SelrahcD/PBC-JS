@@ -3,12 +3,20 @@
   "version": "0.0.0",
   "description": "Generate data for Process Behavior Charts in JS, meant to be used in Google App Scripts",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "author": "SelrahcD",
   "license": "MIT",
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "wallaby": {
+    "env": {
+      "params": {
+        "runner": "--experimental-vm-modules"
+      }
+    }
   }
 }

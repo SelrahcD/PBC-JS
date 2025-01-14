@@ -198,7 +198,7 @@ const pbc = (data, instructions = [], baselineSize = 10) =>  {
 }
 
 
-module.exports = {
+export {
     pbc,
     computeOneProcess,
     rule1,
@@ -206,4 +206,4 @@ module.exports = {
     rule3,
     prepareDataFromGoogleSheet,
     transpose
-}
+};

@@ -1,5 +1,12 @@
-const {pbc, computeOneProcess, transpose, rule3, rule2, rule1, prepareDataFromGoogleSheet} = require("./index");
-
+import {
+    pbc,
+    computeOneProcess,
+    transpose,
+    rule3,
+    rule2,
+    rule1,
+    prepareDataFromGoogleSheet
+} from './index.js';
 
 describe('Compute the data for a Process Behavior Chart', () => {
 
