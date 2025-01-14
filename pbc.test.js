@@ -15,48 +15,74 @@ const average = (data) => {
     return data.reduce((sum, x) => sum + x, 0) / data.length
 };
 
-const rule1 = (data, lowerLimit, upperLimit) => {
-    return data.map(value => (value > upperLimit || value < lowerLimit) ? value : '')
-}
+const rule1 = (data, lowerLimit, upperLimit) => data.map(value => (value > upperLimit || value < lowerLimit) ? value : '')
 
-// This could probably be achieved with recursion.
-// Would probably be nicer.
-const rule2 = (data, average) => {
-    let signals = [];
-    let seqCount = 0;
-    let prevAboveOrUnder = data[0] > average ? 'above' : 'under';
-    let aboveOrUnder = '';
-    let i;
+const rule2 = (data, average) => createGroupsOfSize(8)(data)
+    .filter(groupsWherePointsAreAllAboveOrBelowTheAverage(average))
+    .reduce(addSignalGroupTo, createResultArrayOfLength(data.length))
 
-    function addElementsStartingFrom(data, signals, i, seqCount) {
-        for (let j = i - seqCount; j < i; j++) {
-            if (seqCount >= 8) {
-                signals.push(data[j]);
-            } else {
-                signals.push('');
+const rule3 = (data, average, lowerLimit, upperLimit) => createGroupsOfSize(4)(data)
+    .filter(groupsWith3OutOf4pointsCloserToALimitThanTheAverage(average, lowerLimit, upperLimit))
+    .reduce(addSignalGroupTo, createResultArrayOfLength(data.length))
+
+const createGroupsOfSize = (groupeSize = 4) => (data) => {
+    const groups = [];
+
+    for (let i = 0; i <= data.length - groupeSize; i++) {
+        groups.push({index: i, elements: data.slice(i, i + groupeSize)});
+    }
+    return groups;
+};
+
+const addSignalGroupTo = (result, {index, elements}) => {
+
+    for (let i = 0; i < elements.length; i++) {
+        result[index + i] = elements[i];
+    }
+
+    return result
+};
+
+const createResultArrayOfLength = length => new Array(length).fill('');
+
+const groupsWherePointsAreAllAboveOrBelowTheAverage = (average) => ({elements}) => {
+    let pointsAboveAverage = 0;
+    let pointsBelowAverage = 0;
+    for (let i = 0; i < elements.length; i++) {
+        if(elements[i] > average) {
+            pointsAboveAverage++;
+        }
+        else if(elements[i] < average) {
+            pointsBelowAverage++;
+        }
+    }
+
+    return pointsAboveAverage === elements.length || pointsBelowAverage === elements.length;
+};
+
+
+const groupsWith3OutOf4pointsCloserToALimitThanTheAverage = (average, lowerLimit, upperLimit) => {
+
+    const upperQuarter = (average + upperLimit) / 2
+    const lowerQuarter = (average + lowerLimit) / 2
+
+    return ({elements}) => {
+
+        let countCloserToUpperLimit = 0;
+        let countCloserToLowerLimit = 0;
+
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i] > upperQuarter) {
+                countCloserToUpperLimit++
+            } else if (elements[i] < lowerQuarter) {
+                countCloserToLowerLimit++
             }
         }
 
-        return signals;
-    }
-
-    for (i = 0; i < data.length; i++) {
-
-        aboveOrUnder = data[i] > average ? 'above' : 'under';
-
-        if (prevAboveOrUnder !== aboveOrUnder) {
-            signals = addElementsStartingFrom(data, signals, i, seqCount);
-
-            seqCount = 1;
-        } else {
-            seqCount++;
-        }
-
-        prevAboveOrUnder = aboveOrUnder;
-    }
-
-    return addElementsStartingFrom(data, signals, i, seqCount);
+        return countCloserToUpperLimit >= 3 || countCloserToLowerLimit >= 3;
+    };
 }
+
 
 const emptyPBC = () => {
     return {
@@ -425,52 +451,6 @@ describe('Rule 2 : Eight consecutive points on the same side of the central line
     })
 
 });
-
-const rule3 = (data, average, lowerLimit, upperLimit) => {
-
-    const upperQuarter = (average + upperLimit) / 2
-    const lowerQuarter = (average + lowerLimit) / 2
-
-    const createGroups = () => {
-        const groups = [];
-
-        for (let i = 0; i < data.length - 3; i++) {
-            groups.push({index: i, elements: data.slice(i, i + 4)});
-        }
-        return groups;
-    };
-
-    const isGroupASignal = ({index, elements}) => {
-
-        let countCloserToUpperLimit = 0;
-        let countCloserToLowerLimit = 0;
-
-        for (let i = 0; i < elements.length; i++) {
-            if (elements[i] > upperQuarter) {
-                countCloserToUpperLimit++
-            } else if (elements[i] < lowerQuarter) {
-                countCloserToLowerLimit++
-            }
-        }
-
-        return countCloserToUpperLimit >= 3 || countCloserToLowerLimit >= 3;
-    };
-
-    const groupsWithSignals = createGroups().filter(isGroupASignal
-    )
-
-    const result = new Array(data.length).fill('')
-
-    groupsWithSignals.forEach(({index, elements}) => {
-
-        for(let i = 0; i < elements.length; i++) {
-            result[index + i] = elements[i];
-        }
-
-    })
-
-    return result
-}
 
 describe('Rule 3 : Three out of four points closer to UNPL or LNPL than from central line', () => {
 
