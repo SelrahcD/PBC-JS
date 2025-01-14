@@ -15,7 +15,7 @@ const rule3 = (data, average, lowerLimit, upperLimit) => createGroupsOfSize(4)(d
     .filter(groupsWith3OutOf4pointsCloserToALimitThanTheAverage(average, lowerLimit, upperLimit))
     .reduce(addSignalGroupTo, createResultArrayOfLength(data.length))
 
-const createGroupsOfSize = (groupeSize = 4) => (data) => {
+const createGroupsOfSize = (groupeSize) => (data) => {
     const groups = [];
 
     for (let i = 0; i <= data.length - groupeSize; i++) {
