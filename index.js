@@ -165,12 +165,12 @@ const mergeProcesses = (process1, process2) => {
 }
 
 /**
- * Compute a Process Behavior Charts and list signal detections
+ * Compute a Process Behavior Charts and list detected Signals
  *
- * @param {array[number]} data The list of measurements to include in the PBC.
- * @param {array} instructions Instructions to change the PBC computation
- * @param baselineSize int The number of points to include in the baseline
- * @return {array[array]} the PBC
+ * @param {B2:B100} data The list of data points to include in the PBC
+ * @param {C2:C100} instructions [OPTIONAL] Instructions to change the PBC computation. You can use "Change limits" to trigger a new baseline computation.
+ * @param {10} baselineSize [OPTIONAL] The number of data points to include in the baseline
+ * @return The PBC and detected signals data
  * @customfunction
  */
 const pbc = (data, instructions = [], baselineSize = 10) =>  {
