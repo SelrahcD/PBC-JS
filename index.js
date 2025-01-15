@@ -173,7 +173,7 @@ const mergeProcesses = (process1, process2) => {
  * @return The PBC and detected signals data
  * @customfunction
  */
-const pbc = (data, instructions = [], baselineSize = 10) =>  {
+const PBC = (data, instructions = [], baselineSize = 10) =>  {
 
     const cleanData = prepareDataFromGoogleSheet(data);
     const cleanInstructions = prepareInstructionsFromGoogleSheet(instructions)
@@ -199,7 +199,7 @@ const pbc = (data, instructions = [], baselineSize = 10) =>  {
 
 
 export {
-    pbc,
+    PBC,
     computeOneProcess,
     rule1,
     rule2,

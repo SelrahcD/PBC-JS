@@ -1,5 +1,5 @@
 import {
-    pbc,
+    PBC,
     computeOneProcess,
     transpose,
     rule3,
@@ -11,43 +11,43 @@ import {
 describe('Compute the data for a Process Behavior Chart', () => {
 
     test('Directly with an array of values', () => {
-        const pbcData = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
+        const pbcData = PBC([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
 
         expect(pbcData).toMatchSnapshot();
     })
 
     test('With an array of array of one value', () => {
-        const pbcData = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
+        const pbcData = PBC([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
 
         expect(pbcData).toMatchSnapshot();
     })
 
     test('As same result with sub-array or without', () => {
-        const pbcData1 = pbc([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
-        const pbcData2 = pbc([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
+        const pbcData1 = PBC([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
+        const pbcData2 = PBC([[82.30], [82.6], [82.9], [82.7], [82.7], [82.3], [82.9], [82.5], [82.6], [82.4], [81.8], [81.8], [81.6], [81.3], [81.7], [81.8], [81.7], [82], [81.2], [81.4], [83.2], [82.8], [82], [81.9], [82.5], [83.2], [82.9], [81.8], [81.6], [81.8], [82.8], [81.9], [82.5], [82.2], [82], [81.3], [80.9], [81.3], [81.4]], [])
 
         expect(pbcData1).toStrictEqual(pbcData2);
     })
 
     test('Allows to change the baseline size', () => {
-        const pbcData = pbc([1, 2, 1], [],  2)
+        const pbcData = PBC([1, 2, 1], [],  2)
 
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Fails if the data array is empty', () => {
-        expect(() => pbc([], [], 10)).toThrowError('Data array must not be empty.')
+        expect(() => PBC([], [], 10)).toThrowError('Data array must not be empty.')
     })
 
     test('Do not create rows for empty data input', () => {
-        const pbcData = pbc([10, 5, 0, ''], [], 10)
+        const pbcData = PBC([10, 5, 0, ''], [], 10)
 
         expect(pbcData.length).toBe(4)
     })
 
     test('Data with empty trailing inputs has same result as without them', () => {
-        const pbcDataWithEmptyLines = pbc([10, 5, 0, ''], [], 10)
-        const pbcDataWithoutEmptyLines = pbc([10, 5, 0], [], 10)
+        const pbcDataWithEmptyLines = PBC([10, 5, 0, ''], [], 10)
+        const pbcDataWithoutEmptyLines = PBC([10, 5, 0], [], 10)
 
         expect(pbcDataWithEmptyLines).toStrictEqual(pbcDataWithoutEmptyLines)
     })
@@ -57,34 +57,34 @@ describe('Compute the data for a Process Behavior Chart', () => {
 describe('Instructions', () => {
 
     test('Doesnt fail if the instruction parameters is missing', () => {
-        const pbcData = pbc([1, 10, 2, 5, 15, -2], [], 10);
+        const pbcData = PBC([1, 10, 2, 5, 15, -2], [], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Doesnt fail if the instruction parameters contains less rows than the data one', () => {
-        const pbcData = pbc([1, 1, 1], ['',], 10);
+        const pbcData = PBC([1, 1, 1], ['',], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Doesnt fail if the instruction parameters contains more rows than the data one', () => {
-        const pbcData = pbc([1, 1, 1], ['', '', '', ''], 10);
+        const pbcData = PBC([1, 1, 1], ['', '', '', ''], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('When there is more instruction rows than data rows, as same result as with same number of rowsd', () => {
-        const pbcWithMoreRows = pbc([1, 1, 1], ['', '', '', ''], 10);
-        const pbcWithSameNumberOfRows = pbc([1, 1, 1], ['', '', ''], 10);
+        const pbcWithMoreRows = PBC([1, 1, 1], ['', '', '', ''], 10);
+        const pbcWithSameNumberOfRows = PBC([1, 1, 1], ['', '', ''], 10);
         expect(pbcWithMoreRows).toStrictEqual(pbcWithSameNumberOfRows)
     })
 
     test('Doesnt fail if the instructions contain an unknown instruction', () => {
-        const pbcData = pbc([1, 1, 1], ['', '', 'unknown instruction', ''], 10);
+        const pbcData = PBC([1, 1, 1], ['', '', 'unknown instruction', ''], 10);
         expect(pbcData).toMatchSnapshot()
     })
 
     test('Accept instructions in array of array', () => {
-        const pbcWithInstructionInArray =  pbc([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']], 10)
-        const pbcWithInstructionNotInArray =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
+        const pbcWithInstructionInArray =  PBC([1, 10, 100, 136], [[''], [''], ['Change limits'], ['']], 10)
+        const pbcWithInstructionNotInArray =  PBC([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
 
         expect(pbcWithInstructionInArray).toStrictEqual(pbcWithInstructionNotInArray)
     })
@@ -92,15 +92,15 @@ describe('Instructions', () => {
     describe('Change limits instruction allows to split data into multiple sub-processes', () => {
 
         test('Using "Change limits" instruction on first line doesnt change the result', () => {
-            const pbcWithoutInstruction = pbc([1, 10, 2, 5, 15, -2], [], 10)
-            const pbcWithInstruction =  pbc([1, 10, 2, 5, 15, -2], ['Change limits'], 10)
+            const pbcWithoutInstruction = PBC([1, 10, 2, 5, 15, -2], [], 10)
+            const pbcWithInstruction =  PBC([1, 10, 2, 5, 15, -2], ['Change limits'], 10)
             expect(pbcWithInstruction).toStrictEqual(pbcWithoutInstruction)
         })
 
         test('Using "Change limits" instruction split the PBC into parts that would be equal to multiple small PBCs assembled', () => {
-            const pbcWithoutInstruction1 = pbc([1, 10,], [], 10)
-            const pbcWithoutInstruction2 = pbc([100, 136], [], 10)
-            const pbcWithInstruction =  pbc([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
+            const pbcWithoutInstruction1 = PBC([1, 10,], [], 10)
+            const pbcWithoutInstruction2 = PBC([100, 136], [], 10)
+            const pbcWithInstruction =  PBC([1, 10, 100, 136], ['', '', 'Change limits', ''], 10)
 
             const [_headers, ...pbcWithInstruction2WithoutHeaders] = pbcWithoutInstruction2;
             expect(pbcWithInstruction).toStrictEqual([...pbcWithoutInstruction1, ...pbcWithInstruction2WithoutHeaders])
