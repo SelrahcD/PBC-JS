@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Compute the data for a Process Behavior Chart Allows to change the baseline size 1`] = `
+exports[`Compute the data for a Process Behavior Chart with data coming from Google Sheet Allows to change the baseline size 1`] = `
 [
   [
     "Average",
@@ -37,7 +37,7 @@ exports[`Compute the data for a Process Behavior Chart Allows to change the base
 ]
 `;
 
-exports[`Compute the data for a Process Behavior Chart Directly with an array of values 1`] = `
+exports[`Compute the data for a Process Behavior Chart with data coming from Google Sheet Directly with an array of values 1`] = `
 [
   [
     "Average",
@@ -362,7 +362,7 @@ exports[`Compute the data for a Process Behavior Chart Directly with an array of
 ]
 `;
 
-exports[`Compute the data for a Process Behavior Chart With an array of array of one value 1`] = `
+exports[`Compute the data for a Process Behavior Chart with data coming from Google Sheet With an array of array of one value 1`] = `
 [
   [
     "Average",

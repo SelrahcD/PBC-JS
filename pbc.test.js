@@ -5,7 +5,7 @@ import {
     rule3,
     rule2,
     rule1,
-    prepareDataFromGoogleSheet
+    prepareDataFromGoogleSheet, buildPBC
 } from './index.js';
 
 describe('Compute the data for a Process Behavior Chart with data coming from Google Sheet', () => {
@@ -53,7 +53,23 @@ describe('Compute the data for a Process Behavior Chart with data coming from Go
     })
 });
 
+describe('Build a PBC', () => {
 
+    test.each(
+        [
+            'Average',
+            'Lower limit',
+            'Upper limit',
+            'Rule 1',
+            'Rule 2',
+            'Rule 3',
+        ]
+    )('with all the necessary columns', (columName) => {
+        const pbc = buildPBC([1, 2, 3]);
+
+        expect(pbc).toHaveProperty(columName);
+    })
+})
 
 describe('Instructions', () => {
 

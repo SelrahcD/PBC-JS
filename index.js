@@ -164,7 +164,7 @@ const mergeProcesses = (process1, process2) => {
     return mergedProcesses;
 }
 
-function buildPBC(data, instructions, baselineSize) {
+function buildPBC(data, instructions = [], baselineSize = 10) {
     const processes = [];
 
     let currentProcess = [];
@@ -204,6 +204,7 @@ const PBC = (data, instructions = [], baselineSize = 10) =>  {
 
 export {
     PBC,
+    buildPBC,
     computeOneProcess,
     rule1,
     rule2,
