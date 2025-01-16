@@ -77,6 +77,7 @@ const groupsWith3OutOf4pointsCloserToALimitThanTheAverage = (average, lowerLimit
 const emptyPBC = () => {
     return {
         'Average': [],
+        'Moving range': [],
         'Lower limit': [],
         'Upper limit': [],
         'Rule 1': [],
@@ -92,18 +93,19 @@ const computeOneProcess = (data, baselineRequestedSize) => {
     let result = {}
 
     const baselineSize = Math.min(baselineRequestedSize, data.length)
-    const baseline = data.slice(0, baselineSize);
+    const fullMovingRange = [];
 
-    const movingRange = [];
-
-    for(let i = 1; i < baseline.length; i++) {
-        let currentValue = baseline[i];
-        let previousValue = baseline[i - 1];
-        movingRange.push(Math.abs(currentValue - previousValue))
+    for(let i = 1; i < data.length; i++) {
+        let currentValue = data[i];
+        let previousValue = data[i - 1];
+        fullMovingRange.push(Math.abs(currentValue - previousValue))
     }
-    const averageMovingRange = average(movingRange);
 
-    const processAverage = average(baseline);
+    const averageMovingRange = average(fullMovingRange.slice(0, baselineSize - 1));
+
+    result['Moving range'] = ['', ...fullMovingRange];
+
+    const processAverage = average(data.slice(0, baselineSize));
     result['Average'] = new Array(data.length).fill(processAverage);
 
     const lowerLimit = result.Average[0] - (3 * averageMovingRange / 1.128);

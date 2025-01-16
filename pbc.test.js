@@ -58,6 +58,7 @@ describe('Build a PBC', () => {
     test.each(
         [
             'Average',
+            'Moving range',
             'Lower limit',
             'Upper limit',
             'Rule 1',
@@ -141,6 +142,22 @@ describe('Compute the Average for the baseline', () => {
     })
 
 });
+
+describe('Compute the Moving range ', () => {
+
+    test.each([
+        {data: [1], expected: ['']},
+        {data: [1, 1], expected: ['', 0]},
+        {data: [0, 1], expected: ['', 1]},
+        {data: [0, -1], expected: ['', 1]},
+        {data: [0, 1, 2, -1], expected: ['', 1, 1, 3]},
+    ])('Compute the Moving Range', ({data, expected}) => {
+        const result = computeOneProcess(data);
+        expect(result['Moving range']).toStrictEqual(expected);
+    })
+
+})
+
 
 describe('Compute the Lower Natural Process Limit to the result object', () => {
 
