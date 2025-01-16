@@ -76,12 +76,12 @@ const groupsWith3OutOf4pointsCloserToALimitThanTheAverage = (average, lowerLimit
 
 const emptyPBC = () => {
     return {
-        AVERAGE: [],
-        LOWER_NATURAL_PROCESS_LIMIT: [],
-        UPPER_NATURAL_PROCESS_LIMIT: [],
-        RULE_1: [],
-        RULE_2: [],
-        RULE_3: [],
+        'Average': [],
+        'Lower limit': [],
+        'Upper limit': [],
+        'Rule 1': [],
+        'Rule 2': [],
+        'Rule 3': [],
     }
 }
 
@@ -104,17 +104,17 @@ const computeOneProcess = (data, baselineRequestedSize) => {
     const averageMovingRange = average(movingRange);
 
     const processAverage = average(baseline);
-    result.AVERAGE = new Array(data.length).fill(processAverage);
+    result['Average'] = new Array(data.length).fill(processAverage);
 
-    const lowerLimit = result.AVERAGE[0] - (3 * averageMovingRange / 1.128);
-    result.LOWER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(lowerLimit);
+    const lowerLimit = result.Average[0] - (3 * averageMovingRange / 1.128);
+    result['Lower limit'] = new Array(data.length).fill(lowerLimit);
 
-    const upperLimit = result.AVERAGE[0] + (3 * averageMovingRange / 1.128);
-    result.UPPER_NATURAL_PROCESS_LIMIT = new Array(data.length).fill(upperLimit);
+    const upperLimit = result.Average[0] + (3 * averageMovingRange / 1.128);
+    result['Upper limit'] = new Array(data.length).fill(upperLimit);
 
-    result.RULE_1 = rule1(data, lowerLimit, upperLimit);
-    result.RULE_2 = rule2(data, processAverage);
-    result.RULE_3 = rule3(data, processAverage, lowerLimit, upperLimit);
+    result['Rule 1'] = rule1(data, lowerLimit, upperLimit);
+    result['Rule 2'] = rule2(data, processAverage);
+    result['Rule 3'] = rule3(data, processAverage, lowerLimit, upperLimit);
 
     return result
 }

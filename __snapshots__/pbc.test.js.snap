@@ -3,12 +3,12 @@
 exports[`Compute the data for a Process Behavior Chart Allows to change the baseline size 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     1.5,
@@ -40,12 +40,12 @@ exports[`Compute the data for a Process Behavior Chart Allows to change the base
 exports[`Compute the data for a Process Behavior Chart Directly with an array of values 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     82.59,
@@ -365,12 +365,12 @@ exports[`Compute the data for a Process Behavior Chart Directly with an array of
 exports[`Compute the data for a Process Behavior Chart With an array of array of one value 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     82.59,
@@ -690,12 +690,12 @@ exports[`Compute the data for a Process Behavior Chart With an array of array of
 exports[`Instructions Doesnt fail if the instruction parameters contains less rows than the data one 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     1,
@@ -727,12 +727,12 @@ exports[`Instructions Doesnt fail if the instruction parameters contains less ro
 exports[`Instructions Doesnt fail if the instruction parameters contains more rows than the data one 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     1,
@@ -764,12 +764,12 @@ exports[`Instructions Doesnt fail if the instruction parameters contains more ro
 exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     5.166666666666667,
@@ -825,12 +825,12 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
 exports[`Instructions Doesnt fail if the instructions contain an unknown instruction 1`] = `
 [
   [
-    "AVERAGE",
-    "LOWER_NATURAL_PROCESS_LIMIT",
-    "UPPER_NATURAL_PROCESS_LIMIT",
-    "RULE_1",
-    "RULE_2",
-    "RULE_3",
+    "Average",
+    "Lower limit",
+    "Upper limit",
+    "Rule 1",
+    "Rule 2",
+    "Rule 3",
   ],
   [
     1,

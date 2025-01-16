@@ -120,7 +120,7 @@ describe('Compute the Average for the baseline', () => {
         {data: [1, 3], baselineSize: 3 ,expected: [2, 2]},
     ])('Average value is the average of the measurements in the baseline', ({data,  baselineSize, expected}) => {
         const result = computeOneProcess(data, baselineSize);
-        expect(result.AVERAGE).toStrictEqual(expected);
+        expect(result['Average']).toStrictEqual(expected);
     })
 
 });
@@ -136,7 +136,7 @@ describe('Compute the Lower Natural Process Limit to the result object', () => {
         {data: [-1, 1, 2, 2], baselineSize: 2, expected: [-5.319148936170214, -5.319148936170214, -5.319148936170214, -5.319148936170214]},
     ])('Compute Lower Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
         const result = computeOneProcess(data, baselineSize);
-        expect(result.LOWER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
+        expect(result['Lower limit']).toStrictEqual(expected);
     })
 
 })
@@ -152,7 +152,7 @@ describe('Compute the Upper Natural Process Limit to the result object', () => {
         {data: [-1, 1, 2, 2], baselineSize: 2, expected: [5.319148936170214, 5.319148936170214, 5.319148936170214, 5.319148936170214]},
     ])('Compute Upper Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
         const result = computeOneProcess(data, baselineSize);
-        expect(result.UPPER_NATURAL_PROCESS_LIMIT).toStrictEqual(expected);
+        expect(result['Upper limit']).toStrictEqual(expected);
     })
 
 })
