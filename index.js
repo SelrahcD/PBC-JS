@@ -78,6 +78,7 @@ const emptyPBC = () => {
     return {
         'Average': [],
         'Moving range': [],
+        'MR Upper limit': [],
         'Lower limit': [],
         'Upper limit': [],
         'Rule 1': [],
@@ -101,9 +102,15 @@ const computeOneProcess = (data, baselineRequestedSize) => {
         fullMovingRange.push(Math.abs(currentValue - previousValue))
     }
 
+    // We need to add an empty row for the first moving range, as first MR value is in row 2.
+    result['Moving range'] = ['', ...fullMovingRange];
+
+    // We take the last MR point out to be on the same baseline as the others because MR are
+    // translated of one row.
     const averageMovingRange = average(fullMovingRange.slice(0, baselineSize - 1));
 
-    result['Moving range'] = ['', ...fullMovingRange];
+    const mrUpperLimit = 3.268 * averageMovingRange;
+    result['MR Upper limit'] = new Array(data.length).fill(mrUpperLimit);
 
     const processAverage = average(data.slice(0, baselineSize));
     result['Average'] = new Array(data.length).fill(processAverage);

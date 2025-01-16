@@ -5,6 +5,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -14,6 +15,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     1.5,
     "",
+    3.268,
     -1.1595744680851068,
     4.159574468085107,
     "",
@@ -23,6 +25,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     1.5,
     1,
+    3.268,
     -1.1595744680851068,
     4.159574468085107,
     "",
@@ -32,6 +35,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     1.5,
     1,
+    3.268,
     -1.1595744680851068,
     4.159574468085107,
     "",
@@ -46,6 +50,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -55,6 +60,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     "",
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -64,6 +70,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -73,6 +80,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.30000000000001137,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -82,6 +90,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -91,6 +100,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -100,6 +110,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -109,6 +120,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.6000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -118,6 +130,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -127,6 +140,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -136,6 +150,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.19999999999998863,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -145,6 +160,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.6000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -154,6 +170,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -163,6 +180,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.6,
@@ -172,6 +190,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -181,6 +200,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.7,
@@ -190,6 +210,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -199,6 +220,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.7,
@@ -208,6 +230,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -217,6 +240,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.2,
@@ -226,6 +250,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.4,
@@ -235,6 +260,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -244,6 +270,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -253,6 +280,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -262,6 +290,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -271,6 +300,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.5999999999999943,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -280,6 +310,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7000000000000028,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -289,6 +320,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -298,6 +330,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1.1000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -307,6 +340,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.6,
@@ -316,6 +350,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -325,6 +360,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -334,6 +370,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.8999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -343,6 +380,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.5999999999999943,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -352,6 +390,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -361,6 +400,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -370,6 +410,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7000000000000028,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -379,6 +420,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.3999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     80.9,
@@ -388,6 +430,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.3999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -397,6 +440,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.10000000000000853,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.4,
@@ -411,6 +455,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -420,6 +465,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     "",
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -429,6 +475,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -438,6 +485,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.30000000000001137,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -447,6 +495,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -456,6 +505,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -465,6 +515,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -474,6 +525,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.6000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -483,6 +535,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -492,6 +545,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -501,6 +555,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.19999999999998863,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -510,6 +565,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.6000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -519,6 +575,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -528,6 +585,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.6,
@@ -537,6 +595,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -546,6 +605,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.7,
@@ -555,6 +615,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -564,6 +625,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.7,
@@ -573,6 +635,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -582,6 +645,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.2,
@@ -591,6 +655,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.4,
@@ -600,6 +665,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -609,6 +675,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.4000000000000057,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -618,6 +685,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7999999999999972,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -627,6 +695,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.09999999999999432,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -636,6 +705,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.5999999999999943,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -645,6 +715,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7000000000000028,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -654,6 +725,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -663,6 +735,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1.1000000000000085,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -672,6 +745,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.6,
@@ -681,6 +755,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.8,
@@ -690,6 +765,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     1,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -699,6 +775,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.8999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -708,6 +785,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.5999999999999943,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -717,6 +795,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.29999999999999716,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -726,6 +805,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.20000000000000284,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     "",
@@ -735,6 +815,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.7000000000000028,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -744,6 +825,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.3999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     80.9,
@@ -753,6 +835,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.3999999999999915,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.3,
@@ -762,6 +845,7 @@ exports[`Compute the data for a Process Behavior Chart with data coming from Goo
   [
     82.59,
     0.10000000000000853,
+    0.9077777777777828,
     81.8512293144208,
     83.3287706855792,
     81.4,
@@ -776,6 +860,7 @@ exports[`Instructions Doesnt fail if the instruction parameters contains less ro
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -785,14 +870,6 @@ exports[`Instructions Doesnt fail if the instruction parameters contains less ro
   [
     1,
     "",
-    1,
-    1,
-    "",
-    "",
-    "",
-  ],
-  [
-    1,
     0,
     1,
     1,
@@ -802,6 +879,17 @@ exports[`Instructions Doesnt fail if the instruction parameters contains less ro
   ],
   [
     1,
+    0,
+    0,
+    1,
+    1,
+    "",
+    "",
+    "",
+  ],
+  [
+    1,
+    0,
     0,
     1,
     1,
@@ -817,6 +905,7 @@ exports[`Instructions Doesnt fail if the instruction parameters contains more ro
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -826,14 +915,6 @@ exports[`Instructions Doesnt fail if the instruction parameters contains more ro
   [
     1,
     "",
-    1,
-    1,
-    "",
-    "",
-    "",
-  ],
-  [
-    1,
     0,
     1,
     1,
@@ -843,6 +924,17 @@ exports[`Instructions Doesnt fail if the instruction parameters contains more ro
   ],
   [
     1,
+    0,
+    0,
+    1,
+    1,
+    "",
+    "",
+    "",
+  ],
+  [
+    1,
+    0,
     0,
     1,
     1,
@@ -858,6 +950,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -867,6 +960,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     "",
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -876,6 +970,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     9,
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -885,6 +980,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     8,
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -894,6 +990,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     3,
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -903,6 +1000,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     10,
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -912,6 +1010,7 @@ exports[`Instructions Doesnt fail if the instruction parameters is missing 1`] =
   [
     5.166666666666667,
     17,
+    30.7192,
     -19.833333333333336,
     30.16666666666667,
     "",
@@ -926,6 +1025,7 @@ exports[`Instructions Doesnt fail if the instructions contain an unknown instruc
   [
     "Average",
     "Moving range",
+    "MR Upper limit",
     "Lower limit",
     "Upper limit",
     "Rule 1",
@@ -935,14 +1035,6 @@ exports[`Instructions Doesnt fail if the instructions contain an unknown instruc
   [
     1,
     "",
-    1,
-    1,
-    "",
-    "",
-    "",
-  ],
-  [
-    1,
     0,
     1,
     1,
@@ -952,6 +1044,17 @@ exports[`Instructions Doesnt fail if the instructions contain an unknown instruc
   ],
   [
     1,
+    0,
+    0,
+    1,
+    1,
+    "",
+    "",
+    "",
+  ],
+  [
+    1,
+    0,
     0,
     1,
     1,

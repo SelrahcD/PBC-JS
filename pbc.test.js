@@ -59,6 +59,7 @@ describe('Build a PBC', () => {
         [
             'Average',
             'Moving range',
+            'MR Upper limit',
             'Lower limit',
             'Upper limit',
             'Rule 1',
@@ -155,7 +156,6 @@ describe('Compute the Moving range ', () => {
         const result = computeOneProcess(data);
         expect(result['Moving range']).toStrictEqual(expected);
     })
-
 })
 
 
@@ -187,6 +187,24 @@ describe('Compute the Upper Natural Process Limit to the result object', () => {
     ])('Compute Upper Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
         const result = computeOneProcess(data, baselineSize);
         expect(result['Upper limit']).toStrictEqual(expected);
+    })
+
+})
+
+describe('Compute the MR Upper Limit', () => {
+
+    test.each([
+        {data: [1, 1], baselineSize: 1, expected: [0, 0]},
+        {data: [1, 0], baselineSize: 2, expected: [3.268,  3.268]},
+        {data: [1, -1], baselineSize: 2, expected: [6.536,  6.536]},
+        {data: [-1, -1], baselineSize: 2, expected: [0, 0]},
+        {data: [1, 0, 1], baselineSize: 2, expected: [3.268,  3.268, 3.268]},
+        {data: [1, 1, 1], baselineSize: 2, expected: [0, 0, 0]},
+        {data: [1, 1, 1], baselineSize: 3, expected: [0, 0, 0]},
+        {data: [0, 10, 6], baselineSize: 3, expected: [22.875999999999998, 22.875999999999998, 22.875999999999998]},
+    ])('Compute Upper Natural Process Limit to the result object', ({data, baselineSize, expected}) => {
+        const result = computeOneProcess(data, baselineSize);
+        expect(result['MR Upper limit']).toStrictEqual(expected);
     })
 
 })
