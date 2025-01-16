@@ -8,7 +8,7 @@ import {
     prepareDataFromGoogleSheet
 } from './index.js';
 
-describe('Compute the data for a Process Behavior Chart', () => {
+describe('Compute the data for a Process Behavior Chart with data coming from Google Sheet', () => {
 
     test('Directly with an array of values', () => {
         const pbcData = PBC([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
@@ -52,6 +52,7 @@ describe('Compute the data for a Process Behavior Chart', () => {
         expect(pbcDataWithEmptyLines).toStrictEqual(pbcDataWithoutEmptyLines)
     })
 });
+
 
 
 describe('Instructions', () => {

@@ -164,6 +164,24 @@ const mergeProcesses = (process1, process2) => {
     return mergedProcesses;
 }
 
+function buildPBC(data, instructions, baselineSize) {
+    const processes = [];
+
+    let currentProcess = [];
+    for (let i = 0; i < data.length; i++) {
+        if (instructions[i] === 'Change limits' && i > 0) {
+            processes.push(currentProcess);
+            currentProcess = [];
+        }
+        currentProcess.push(data[i]);
+    }
+    processes.push(currentProcess);
+
+    return processes
+        .map((p) => computeOneProcess(p, baselineSize))
+        .reduce(mergeProcesses, emptyPBC());
+}
+
 /**
  * Compute a Process Behavior Charts and list detected Signals
  *
@@ -178,21 +196,7 @@ const PBC = (data, instructions = [], baselineSize = 10) =>  {
     const cleanData = prepareDataFromGoogleSheet(data);
     const cleanInstructions = prepareInstructionsFromGoogleSheet(instructions)
 
-    const processes = [];
-
-    let currentProcess = [];
-    for (let i = 0; i < cleanData.length; i++) {
-        if(cleanInstructions[i] === 'Change limits' && i > 0) {
-            processes.push(currentProcess);
-            currentProcess = [];
-        }
-        currentProcess.push(cleanData[i]);
-    }
-    processes.push(currentProcess);
-
-    const globalPBC = processes
-        .map((p) => computeOneProcess(p, baselineSize))
-        .reduce(mergeProcesses, emptyPBC())
+    const globalPBC = buildPBC(cleanData, cleanInstructions, baselineSize);
 
     return transpose(globalPBC)
 }
