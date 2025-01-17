@@ -15,6 +15,19 @@ const rule3 = (data, average, lowerLimit, upperLimit) => createGroupsOfSize(4)(d
     .filter(groupsWith3OutOf4pointsCloserToALimitThanTheAverage(average, lowerLimit, upperLimit))
     .reduce(addSignalGroupTo, createResultArrayOfLength(data.length))
 
+const mrRule1 = (data, mrUpperLimit) => {
+    return data.reduce((result, point)  => {
+        if(point > mrUpperLimit) {
+            result.push(point);
+        }
+        else {
+            result.push('')
+        }
+
+        return result;
+    }, []);
+
+}
 const createGroupsOfSize = (groupeSize) => (data) => {
     const groups = [];
 
@@ -84,6 +97,7 @@ const emptyPBC = () => {
         'Rule 1': [],
         'Rule 2': [],
         'Rule 3': [],
+        'MR Rule 1': [],
     }
 }
 
@@ -124,6 +138,7 @@ const computeOneProcess = (data, baselineRequestedSize) => {
     result['Rule 1'] = rule1(data, lowerLimit, upperLimit);
     result['Rule 2'] = rule2(data, processAverage);
     result['Rule 3'] = rule3(data, processAverage, lowerLimit, upperLimit);
+    result['MR Rule 1'] = mrRule1(result['Moving range'] , mrUpperLimit);
 
     return result
 }
@@ -218,6 +233,7 @@ export {
     rule1,
     rule2,
     rule3,
+    mrRule1,
     prepareDataFromGoogleSheet,
     transpose
 };

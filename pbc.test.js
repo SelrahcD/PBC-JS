@@ -5,14 +5,13 @@ import {
     rule3,
     rule2,
     rule1,
-    prepareDataFromGoogleSheet, buildPBC
+    prepareDataFromGoogleSheet, buildPBC, mrRule1
 } from './index.js';
 
 describe('Compute the data for a Process Behavior Chart with data coming from Google Sheet', () => {
 
     test('Directly with an array of values', () => {
-        const pbcData = PBC([82.30, 82.6, 82.9, 82.7, 82.7, 82.3, 82.9, 82.5, 82.6, 82.4, 81.8, 81.8, 81.6, 81.3, 81.7, 81.8, 81.7, 82, 81.2, 81.4, 83.2, 82.8, 82, 81.9, 82.5, 83.2, 82.9, 81.8, 81.6, 81.8, 82.8, 81.9, 82.5, 82.2, 82, 81.3, 80.9, 81.3, 81.4], [])
-
+        const pbcData = PBC([1, 0, 1, 0 /*baseline avg: 0.5*/, 2, 3.5 /*signal 1*/, 0 /* signal MR 1 */, 1, 1, 1, 1, 1, 1, 1, 1 /* signal 2*/, 0, 0, 1.9, 1.9, 0.2, 1.9 /*signal 3*/], [], 4);
         expect(pbcData).toMatchSnapshot();
     })
 
@@ -65,6 +64,7 @@ describe('Build a PBC', () => {
             'Rule 1',
             'Rule 2',
             'Rule 3',
+            'MR Rule 1'
         ]
     )('with all the necessary columns', (columName) => {
         const pbc = buildPBC([1, 2, 3]);
@@ -396,6 +396,39 @@ describe('Rule 3 : Three out of four points closer to UNPL or LNPL than from cen
     ])('Doesnt include points before a signal', ({data, average, lowerLimit, upperLimit, expected}) => {
         const result = rule3(data, average, lowerLimit, upperLimit);
         expect(result).toStrictEqual(expected);
+    })
+});
+
+
+describe('MR Rule 1 : Any point above the MR Upper limit', () => {
+    test('Doesnt detect signal if there is no data', () => {
+        const result = mrRule1([], 0);
+        expect(result).toStrictEqual([]);
+    })
+
+    test.each([
+        {data: [1], expected: ['']},
+        {data: [1, 1], expected: ['', '']},
+    ])('Doesnt detect a signal below the MR Upper limit', ({data, expected}) => {
+        const result = mrRule1(data, 10);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test.each([
+        {data: [1], mrUpperLimit: 0, expected: [1]},
+        {data: [1, 1], mrUpperLimit: 0, expected: [1, 1]},
+        {data: [-1, 1], mrUpperLimit: 0, expected: ['', 1]},
+        {data: [1, -1], mrUpperLimit: 0, expected: [1, '']},
+        {data: [1, -1, 1], mrUpperLimit: 0, expected: [1, '', 1]},
+        {data: [1, -1, 3], mrUpperLimit: 2, expected: ['', '', 3]},
+    ])('Detect a signal when data is above the MR Upper limit', ({data, mrUpperLimit, expected}) => {
+        const result = mrRule1(data, mrUpperLimit);
+        expect(result).toStrictEqual(expected);
+    })
+
+    test('Doesnt detect a signal for a point equal to the MR average', () => {
+        const result = mrRule1([10], 10);
+        expect(result).toStrictEqual(['']);
     })
 });
 
